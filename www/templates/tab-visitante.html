@@ -1,0 +1,58 @@
+<ion-view view-title="Visitante">
+  <ion-content>
+    
+       <div class="item item-divider"></div>
+   
+       <table style="width:100%">
+        <tr>
+          
+                <td width="10px">
+                  <div ng-style="{ 'width' : width}" >
+                    <ion-label>Equipo: </ion-label>
+                  </div>
+                </td>
+                <td width="100px">
+                      <input type="text" ng-style="{ 'background' : bgColor }" value="{{Nombre}}">
+                        
+                </td>
+                <td width="40px">
+                  <button class="button button-icon icon ion-document-text"
+                  ng-click="guardarDatos()"></button>
+                  <i>Guardar</i>
+                </td>
+                <td>
+                  <div>    
+                    Datos
+                    <ion-toggle ng-model=value ng-change="toggleChange()">
+                    </ion-toggle>  
+                    Ordenar    {{data.showReorder}}              
+                </div>    
+              </td>
+        </tr>
+      </table>     
+
+    <ion-list  show-reorder="data.showReorder">  
+     
+        <div class="item item-divider"><h2>{{nombre}}</h2></div>
+        <ion-item class="item-remove-animate item-avatar item-icon-right" can-swipe="true" ng-repeat="jug in EquipoVisitante  | orderBy:'orden'" type="item-text-wrap" >
+
+
+
+          <img ng-src="{{jug.face}}"> 
+          <h2>{{jug.nombre}}</h2>
+          <p>{{jug.puntos}}</p>
+
+          <ion-reorder-button class="ion-navicon" on-reorder="moveItem(jug, $fromIndex, $toIndex)"></ion-reorder-button>
+          <span ng-if="data.showReorder == false">
+
+           <a href="#/tab/chats/:V{{jug.id}}">
+            <i class="icon ion-person">
+            </i>
+            </a>
+            
+          </span>
+        </ion-item>
+
+    </ion-list>
+  </ion-content>
+</ion-view>

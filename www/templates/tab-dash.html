@@ -1,0 +1,95 @@
+<ion-view view-title="Dashboard">
+  <ion-content class="padding">
+    <div class="list card">
+      <div class="item item-divider">{{Queperiodo}}</div>
+   
+      <div class="item item-body"  class="row">
+        <div class="col">
+          <ion-item class="item-remove-animate item-avatar item-icon-right" type="item-text-wrap" href="#/tab/chats/adam">
+          <img ng-src="../img/reloj.png">
+          <i class="icon ion-chevron-right icon-accessory"></i>
+          <h1>09:30</h1>
+            <button class="button button-icon icon ion-ios-play"
+                  ng-click="guardarDatos()"></button>
+
+        </div>
+
+      </div>
+
+      <div class="item item-divider">{{EquipoLocalNombre}}</div>
+           
+        <ion-content class="item item-body">
+
+          <div class="row" class="item item-body">
+            <div class="col" >
+              <ion-item class="item-avatar item-icon-right" type="item-text-wrap" href="#/tab/dash/:00_1">
+                <img ng-src="../img/balon1.png">
+            </div>
+            <div class="col">
+                <ion-item class="item-avatar item-icon-right" type="item-text-wrap" href="#/tab/dash/:00_2">
+                <img ng-src="../img/balon2.png">
+                
+            </div>
+            <div class="col">
+                <ion-item class="item-avatar item-icon-right" type="item-text-wrap" href="#/tab/dash/:00_3">
+                <img ng-src="../img/balon3.png">
+            </div>
+            <div class="col">
+               
+            </div>
+            <div class="col">
+               <ion-item class="item-avatar item-icon-right" type="item-text-wrap" href="#/tab/dash/:10">
+                  <img ng-src="../img/Juga1.png">
+              </div>
+            <div class="col">
+            
+            </div>
+            <div class="col" align="right">
+            <h1>{{EquipoLocalPuntos}}</h1>
+            </div>
+          </div>
+        </ion-content>
+
+        <div class="item item-divider">{{EquipoVisitanteNombre}}</div>
+        <ion-content class="item item-body">
+
+          <div class="row" class="item item-body">
+            <div class="col" >
+              <ion-item class="item-avatar item-icon-right" type="item-text-wrap" href="#/tab/dash/:01_1">
+                <img ng-src="../img/balon1.png">
+            </div>
+            <div class="col">
+                <ion-item class="item-avatar item-icon-right" type="item-text-wrap" href="#/tab/dash/:01_2">
+                <img ng-src="../img/balon2.png">
+                
+            </div>
+            <div class="col">
+                <ion-item class="item-avatar item-icon-right" type="item-text-wrap" href="#/tab/dash/:01_3">
+                <img ng-src="../img/balon3.png">
+            </div>
+            <div class="col">
+               
+            </div>
+            <div class="col">
+               <ion-item class="item-avatar item-icon-right" type="item-text-wrap" href="#/tab/dash/:11">
+                  <img ng-src="../img/Juga1.png">
+              </div>
+            <div class="col">
+            
+            </div>
+            <div class="col" align="right">
+            <h1>{{EquipoVisitantePuntos}}</h1>
+            </div>
+          </div>
+        </ion-content>
+
+
+      </div>
+
+
+
+     
+    </div>
+  </ion-content>
+</ion-view>
+ 

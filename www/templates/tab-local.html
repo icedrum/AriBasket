@@ -1,0 +1,28 @@
+<ion-view view-title="{{vEquipoLocal}}" > 
+  <ion-content>
+
+
+      <div class="item item-divider"><h2>{{EquipoLocalNombre}}</h2></div>
+          <ion-list>
+              
+
+                <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="jug in jugadoresL  | orderBy:'orden'" type="item-text-wrap">
+
+                  
+
+
+                <img ng-src="{{jug.face}}">
+                <h2>{{jug.nombre}}</h2>
+                <p>{{jug.puntos}}</p>
+                <i class="icon ion-chevron-right icon-accessory"></i>
+                
+              </ion-item>
+            </ion-list>
+   
+
+
+
+   
+
+  </ion-content>
+</ion-view>

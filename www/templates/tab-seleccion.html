@@ -1,0 +1,46 @@
+<ion-view view-title="{{Nombre}}">
+  <ion-content>
+    <ion-list>
+      <div class="c1"  align="center">
+      </div>
+          <h2>
+          <span ng-if="EsUnaFaltaPersonal == true">
+              Falta personal!!! 
+           </span>
+           <span ng-if="EsUnaFaltaPersonal == false">
+              {{TextoCanasta}}
+           </span>
+           </h2>
+        </div>
+        
+        <div class="item item-divider"><h2>{{Nombre}} </h2></div>
+              <ion-list>
+                 
+  
+                  
+                    <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="jug in EquipoPlayers  | orderBy:'orden'" type="item-text-wrap"  >
+
+
+                    <img ng-src="{{jug.face}}" ng-click="RealizarAccion({{jug.id}})">
+                    <h2>{{jug.nombre}}</h2>
+                    <span ng-if="EsUnaFaltaPersonal == true">
+                        <p>Puntos: {{jug.puntos}}      <b> Faltas:<U>{{jug.faltas}}</u></b> </p>
+                    </span>
+                    <span ng-if="EsUnaFaltaPersonal == false">
+                        <p>Faltas: {{jug.faltas}}      <b> Puntos: <u>{{jug.puntos}}</u></b> </p>
+
+                    </span>
+
+
+                    <i class="icon ion-chevron-right icon-accessory"></i>
+                    
+                  </ion-item>
+                </ion-list>
+        </div>
+        
+
+
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-view>
