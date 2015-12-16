@@ -26,38 +26,45 @@ angular.module('starter.controllers', [])
 })
 
 .controller('ChatsCtrl', function($scope,  $stateParams,F_Historico,EquipoVisitante) {
-    $scope.ElHistorico=F_Historico.all();
+    
+        $scope.ElHistorico=F_Historico.all();
 
-    $scope.EquipoV=EquipoVisitante.getPlayers();
-    // L  local      V visitante       T todos
-    var Opcion =$stateParams.OpcionEquipoJugador.substr(1,1);
-    if (Opcion="") Opcion="T";
-    var Jugador=$stateParams.OpcionEquipoJugador.substr(2);
+        
+        // L  local      V visitante       T todos
+        //if ($stateParams.OpcionEquipoJugador=="") $stateParams.OpcionEquipoJugador="T";
+        $scope.Opcion =$stateParams.OpcionEquipoJugador.substr(1,1);
+        $scope.IdJugador=$stateParams.OpcionEquipoJugador.substr(2);
+          
+  
+    $scope.$on('$ionicView.enter',function(e){
+      if ($scope.Opcion == "V") {
+          $scope.EquipoV=EquipoVisitante.getPlayers();
+          $scope.jugador= $scope.EquipoV[$scope.IdJugador];
+        } else {
 
-    console.lo(Opcion);
-    $scope.Titulo=function(){
-    switch(Opcion) {
-    case "L":
-        return "Local"
-        break;
-    case "V":
-        return "visitante"
-        break;
-    case "T":
-        return "Historico de acciones"
-        break;
+        } 
+    });
+    console.log($stateParams.OpcionEquipoJugador); 
 
-    default:
-    };
-
-    }
 
     
-    $scope.NombreJugador = function(id){
-      
-      return $scope.EquipoV[id].nombre;
-      
+    $scope.Titulo=function(){
+      switch($scope.Opcion) {
+      case "L":
+          return "Local"
+          break;
+      case "V":
+          return "visitante"
+          break;
+      case "T":
+          return "Historico de acciones"
+          break;
+
+      default:
+      };
+
     }
+
 
     
 })

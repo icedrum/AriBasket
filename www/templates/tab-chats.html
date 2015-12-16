@@ -1,18 +1,45 @@
-<ion-view view-title="{{Titulo}}">
+<ion-view view-title="{{Titulo()}}">
 
   
     <ion-content>
 
 
-      </div>
-          <h2>
-          <span ng-if="EsUnaFaltaPersonal == true">
-              Falta personal!!! 
-           </span>
-           <span ng-if="EsUnaFaltaPersonal == false">
-              {{TextoCanasta}}
-           </span>
-           </h2>
+      
+       <!-- <div class="bar bar-header bar-royal"  ng-show="Opcion != 'T'">    -->
+      <a class="item item-thumbnail-left" ng-show="Opcion != 'T'" href="#">
+          
+        <table>
+          <tr>
+            <img ng-src="{{jugador.face}}" style="width: 64px; height: 64px">
+          </tr>
+          <tr>
+            <td>
+              <button class="button button-icon icon ion-document-text"
+              ng-click="guardarDatos()"></button>
+            </td>
+            <td>
+              <p>
+              <label class="item item-input" width=50px>
+                <input type="text" placeholder="{{jugador.nombre}}">
+              </label>
+              
+               </p>
+                <p>Puntos:    <b>{{jugador.puntos}}</b>     Faltas:  <b>{{jugador.faltas}}</b>    </p>
+            </td>
+          </tr>
+        </table>
+
+      </a>
+               
+                
+              
+      
+
+
+
+
+          
+
 
 
 
@@ -38,7 +65,7 @@
 
               <div class="col col-33">
                 
-                {{NombreJugador({{his.id}})}}  + {{his.id}}
+               <!-- {{NombreJugador({{his.id}})}}  + {{his.id}} -->
                 
               
                 
