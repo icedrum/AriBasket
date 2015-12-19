@@ -3,33 +3,27 @@
     
        <div class="item item-divider"></div>
    
-       <table style="width:100%">
-        <tr>
-          
-                <td width="10px">
-                  <div ng-style="{ 'width' : width}" >
-                    <ion-label>Equipo: </ion-label>
-                  </div>
-                </td>
-                <td width="100px">
-                      <input type="text" ng-style="{ 'background' : bgColor }" value="{{Nombre}}">
-                        
-                </td>
-                <td width="40px">
-                  <button class="button button-icon icon ion-document-text"
+        <div class="row">
+            <div class="col col-50">Equipo</div>
+            <div class="col col-20">Guardar</div>
+            <div class="col col-20">Cambio</div>
+        </div>
+
+
+          <div class="row">
+            <div class="col col-50">                  
+                    <ion-label><input type="text" ng-style="{ 'background' : bgColor }" value="{{Nombre}}"> </ion-label>                         
+            </div>
+            <div class="col col-20">
+              <button class="button button-icon icon ion-document-text"
                   ng-click="guardarDatos()"></button>
-                  <i>Guardar</i>
-                </td>
-                <td>
-                  <div>    
-                    Datos
-                    <ion-toggle ng-model=value ng-change="toggleChange()">
-                    </ion-toggle>  
-                    Ordenar    {{data.showReorder}}              
-                </div>    
-              </td>
-        </tr>
-      </table>     
+            </div>
+            <div class="col col-20" padding: 20px>
+              <ion-toggle ng-model=value ng-change="toggleChange()" n></ion-toggle>  </div>
+        </div>
+
+
+
 
     <ion-list  show-reorder="data.showReorder">  
      

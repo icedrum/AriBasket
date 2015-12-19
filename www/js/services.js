@@ -265,7 +265,8 @@ angular.module('starter.services', [])
 
 
 .service('Periodo',function(){
-  var QueCuarto =3;
+  var QueCuarto =1;
+  var TiempoActualEnSegundos=300;
 
    this.ObtenerCuarto=function(){
       return QueCuarto;
@@ -303,6 +304,62 @@ angular.module('starter.services', [])
        
        return txtCuarto;
     }
+
+    this.TiempoFormateado = function(){
+
+
+
+
+      var MinCuarto =10;
+      if (QueCuarto>4) MinCuarto=5;      
+      ResulSeg=MinCuarto * 60;
+
+      if (TiempoActualEnSegundos<=0){
+          return ("10 : 00");
+      }
+
+      if (TiempoActualEnSegundos>=ResulSeg){
+
+          return "00 : 00" ;
+      }
+
+      ResulSeg= ResulSeg - TiempoActualEnSegundos;      
+      MinCuarto=ResulSeg / 60 ;
+      MinCuarto=Math.floor(MinCuarto);      
+      ResulSeg=ResulSeg -  (MinCuarto*60);
+      return "0" + String(MinCuarto) + " : " +  ("0" + ResulSeg).slice(-2); 
+
+      
+    }
+
+    this.Tiempo100  = function(){
+        //para el sliade range
+      var MinCuarto =10;
+      if (QueCuarto>4) MinCuarto=5;      
+      MinCuarto=MinCuarto * 60 ;
+
+      MinCuarto =(TiempoActualEnSegundos * 100)/MinCuarto;
+      ResulSeg = Math.round((MinCuarto));
+      if (MinCuarto>100) MinCuarto=100;
+      return MinCuarto ;
+    }
+
+    this.PonerMinutosDesde100 = function(Porcentaje){
+      var vMinut;
+      var ResulSeg =10;
+
+      if (QueCuarto>4) ResulSeg=5;
+      // A segundos
+      ResulSeg=ResulSeg * 60;
+
+
+      vMinut=Math.round((Porcentaje*ResulSeg)/100,0);
+
+      TiempoActualEnSegundos=vMinut;
+
+
+    }
+
 
     this.MinutosCuarto = function(){
       if (QueCuarto<5) 

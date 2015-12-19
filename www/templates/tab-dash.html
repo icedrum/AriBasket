@@ -3,85 +3,110 @@
     <div class="list card">
       <div class="item item-divider">{{Queperiodo}}</div>
    
-      <div class="item item-body"  class="row">
-        <div class="col">
-          <ion-item class="item-remove-animate item-avatar item-icon-right" type="item-text-wrap" href="#/tab/chats/adam">
-          <img ng-src="../img/reloj.png">
-          <i class="icon ion-chevron-right icon-accessory"></i>
-          <h1>09:30</h1>
-            <button class="button button-icon icon ion-ios-play"
-                  ng-click="guardarDatos()"></button>
-
+      <div class="row" class="item item-body">          
+        <div class="col col-50"  align="center">
+          <h1>
+              {{QueMinuto}}
+          </h1>
         </div>
-
+        <div class="col col-10"></div>
+        <div class="col col-20">
+            <img ng-src="../img/play.png"  style="width: 30px; height: 30px">
+        </div>     
+        <div class="col col-20">
+            <img ng-src="../img/pause.png"  style="width: 30px; height: 30px">
+        </div>   
+        
+      </div>
+      <div class="row" class="item item-body">        
+        <div class="col">
+            <div class="item range range-positive">
+              <i class="icon ion-pinpoint"></i>
+                <input type="range" ng-model="valor" ng-change="CambioSlide(valor)" name="volume" min="0" max="100" value="{{valor}}">
+              <i class="ion-clock"></i>
+            </div>
+        </div>               
+      </div>
+      <div class="row" class="item item-body">        
+        <div class="col col-67">
+          {{Queperiodo}}
+        </div>
+        <div class="col col-10">
+            <img ng-src="../img/izq.png"  style="width: 30px; height: 30px">
+        </div>     
+        <div class="col col-10">
+            <img ng-src="../img/der.png"  style="width: 30px; height: 30px">
+        </div>   
       </div>
 
       <div class="item item-divider">{{EquipoLocalNombre}}</div>
            
-        <ion-content class="item item-body">
 
           <div class="row" class="item item-body">
-            <div class="col" >
-              <ion-item class="item-avatar item-icon-right" type="item-text-wrap" href="#/tab/dash/:00_1">
-                <img ng-src="../img/balon1.png">
+            <div class="col col-20">
+              <a href="#/tab/dash/:00_1">
+                <img ng-src="../img/balon1.png"  style="width: 60px; height: 60px">
+              </a>
             </div>
-            <div class="col">
-                <ion-item class="item-avatar item-icon-right" type="item-text-wrap" href="#/tab/dash/:00_2">
-                <img ng-src="../img/balon2.png">
-                
-            </div>
-            <div class="col">
-                <ion-item class="item-avatar item-icon-right" type="item-text-wrap" href="#/tab/dash/:00_3">
-                <img ng-src="../img/balon3.png">
-            </div>
-            <div class="col">
-               
-            </div>
-            <div class="col">
-               <ion-item class="item-avatar item-icon-right" type="item-text-wrap" href="#/tab/dash/:10">
-                  <img ng-src="../img/Juga1.png">
-              </div>
-            <div class="col">
             
+                 
+            <div class="col col-20" >
+              <a href="#/tab/dash/:00_2">
+                <img ng-src="../img/balon2.png"  style="width: 60px; height: 60px">
+              </a>
             </div>
-            <div class="col" align="right">
-            <h1>{{EquipoLocalPuntos}}</h1>
+            <div class="col col-20" >
+              <a href="#/tab/dash/:00_3">
+                <img ng-src="../img/balon3.png"  style="width: 60px; height: 60px">
+              </a>
+  
+            </div>
+                        
+            <div class="col col-20" >
+              <a href="#/tab/dash/:10">
+                <img ng-src="../img/Juga1.png"  style="width: 60px; height: 60px">
+              </a>
+              
+            </div>  
+            <div class="col col-20"  align="right">
+                <h1>{{EquipoLocalPuntos}}</h1>
             </div>
           </div>
-        </ion-content>
+
 
         <div class="item item-divider">{{EquipoVisitanteNombre}}</div>
-        <ion-content class="item item-body">
-
+        
           <div class="row" class="item item-body">
-            <div class="col" >
-              <ion-item class="item-avatar item-icon-right" type="item-text-wrap" href="#/tab/dash/:01_1">
-                <img ng-src="../img/balon1.png">
+
+             <div class="col col-20">
+              <a href="#/tab/dash/:01_1">
+                <img ng-src="../img/balon1.png"  style="width: 60px; height: 60px">
+              </a>
             </div>
-            <div class="col">
-                <ion-item class="item-avatar item-icon-right" type="item-text-wrap" href="#/tab/dash/:01_2">
-                <img ng-src="../img/balon2.png">
-                
+            <div class="col col-20" >
+              <a href="#/tab/dash/:01_2">
+                <img ng-src="../img/balon2.png"  style="width: 60px; height: 60px">
+              </a>
             </div>
-            <div class="col">
-                <ion-item class="item-avatar item-icon-right" type="item-text-wrap" href="#/tab/dash/:01_3">
-                <img ng-src="../img/balon3.png">
+            <div class="col col-20" >
+              <a href="#/tab/dash/:01_3">
+                <img ng-src="../img/balon3.png"  style="width: 60px; height: 60px">
+              </a>
+  
             </div>
-            <div class="col">
-               
+                        
+            <div class="col col-20" >
+              <a href="#/tab/dash/:11">
+                <img ng-src="../img/Juga1.png"  style="width: 60px; height: 60px">
+              </a>
+              
+            </div>     
+            <div class="col col-20"  align="right">
+                <h1>{{EquipoVisitantePuntos}}</h1>
             </div>
-            <div class="col">
-               <ion-item class="item-avatar item-icon-right" type="item-text-wrap" href="#/tab/dash/:11">
-                  <img ng-src="../img/Juga1.png">
-              </div>
-            <div class="col">
-            
-            </div>
-            <div class="col" align="right">
-            <h1>{{EquipoVisitantePuntos}}</h1>
-            </div>
+
           </div>
-        </ion-content>
+        
 
 
       </div>

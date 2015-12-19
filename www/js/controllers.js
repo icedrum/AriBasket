@@ -6,11 +6,11 @@ angular.module('starter.controllers', [])
   // $scope.EquipoVisitanteNombre=EquipoVisitante.getNombre();
   // $scope.EquipoVisitantePuntos=EquipoVisitante.getPuntos();
 
-  $scope.init = function () {
-      // check if there is query in url
-      // and fire search in case its value is not empty
-      console.log("A ver");
-  };
+
+
+
+  $scope.valor=Periodo.Tiempo100();
+  
 
 
   $scope.$on('$ionicView.enter',function(e){
@@ -19,10 +19,16 @@ angular.module('starter.controllers', [])
     $scope.EquipoVisitanteNombre=EquipoVisitante.getNombre();
     $scope.EquipoVisitantePuntos=EquipoVisitante.getPuntos();
     $scope.Queperiodo=Periodo.PonerNombreCuarto();
+    $scope.QueMinuto=Periodo.TiempoFormateado(); 
+
   });
 
+  
 
-
+  $scope.CambioSlide=function(value){
+      Periodo.PonerMinutosDesde100(value);
+      $scope.QueMinuto=Periodo.TiempoFormateado(); 
+  };
 })
 
 .controller('ChatsCtrl', function($scope,  $stateParams,F_Historico,EquipoVisitante) {
@@ -34,19 +40,47 @@ angular.module('starter.controllers', [])
         //if ($stateParams.OpcionEquipoJugador=="") $stateParams.OpcionEquipoJugador="T";
         $scope.Opcion =$stateParams.OpcionEquipoJugador.substr(1,1);
         $scope.IdJugador=$stateParams.OpcionEquipoJugador.substr(2);
-          
+        console.log(        $scope.Opcion + " " + $stateParams.OpcionEquipoJugador);
+        
+        $scope.AuxId=110;
   
     $scope.$on('$ionicView.enter',function(e){
-      if ($scope.Opcion == "V") {
-          $scope.EquipoV=EquipoVisitante.getPlayers();
+      $scope.EquipoV=EquipoVisitante.getPlayers();
+      if ($scope.Opcion == "V") {          
           $scope.jugador= $scope.EquipoV[$scope.IdJugador];
         } else {
 
         } 
     });
-    console.log($stateParams.OpcionEquipoJugador); 
+    
 
+    $scope.NombreJugador=function(LocalVisitante,KJugador){
+        console.log("E" + LocalVisitante + " -  " + String(KJugador) );
+        
+        if (String(LocalVisitante) == "V") {          
+          return $scope.EquipoV[KJugador].nombre;
+        } else {
+          return "";
+        } 
+    }
+    
 
+    $scope.LaAccion=function(vAccion){
+      switch(vAccion) {
+      case "C":
+          return "Cambio"
+          break;
+      case "P":
+          return "Canasta"
+          break;
+      case "F":
+          return "Falta"
+          break;
+
+      default:
+      };
+
+    }    
     
     $scope.Titulo=function(){
       switch($scope.Opcion) {
@@ -86,7 +120,7 @@ angular.module('starter.controllers', [])
      
      $scope.EquipoVisitante=EquipoVisitante.getPlayers();
      $scope.Nombre=EquipoVisitante.getNombre();
-     $scope.width = '120px';
+     $scope.width = '80px';
      $scope.bgColor = 'grey';
     
      $scope.value=true;
