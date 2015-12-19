@@ -130,7 +130,7 @@ angular.module('starter.services', [])
     PlayerV=DatosPorDefectoVisit.clear();
 
 
-    if (true) {
+    if (false) {
       if (localStorage.getItem("JugadoresEquipoVisitante") != null) {
         var cadena=localStorage.getItem("JugadoresEquipoVisitante");
         PlayerV=JSON.parse(cadena);
@@ -224,11 +224,25 @@ angular.module('starter.services', [])
     }
 
     this.Cambio= function(Origen,Fin) {
+        //Para que no haga los cambios iniciales (poner el 5 titular)
+        var TienePuntos_o_Faltas=false;
         var cadena = String(Origen) + " " + String(Fin);
         console.log(cadena);
         orden=13;
         indice1=20;
         indice2=20;
+
+        //Para saber si tiene puntos o faltas
+
+        for (var j = 0;j < 12; j++) {
+          if (PlayerV[j].puntos>0 || PlayerV[j].faltas>0){
+            console.log("Este: " + PlayerV[j].nombre)
+            TienePuntos_o_Faltas =true;
+            j=13;
+          } 
+        };
+
+
         for (var j = 0;j < 12; j++) {
           if (PlayerV[j].orden==Origen)
           {
@@ -253,9 +267,18 @@ angular.module('starter.services', [])
           var orden =PlayerV[indice1].orden; 
           PlayerV[indice1].orden=PlayerV[indice2].orden;
           PlayerV[indice2].orden=orden;
-          if (PlayerV[indice1].orden<5 ||PlayerV[indice2].orden <5){
-             F_Historico.add(PlayerV[Origen].id,"V",Periodo.ObtenerCuarto(),"C",0);
-             F_Historico.add(PlayerV[Fin].id,"V",Periodo.ObtenerCuarto(),"C",0);
+          // Or exlusivo
+          //return ( a || b ) && !( a && b );
+          var grabar=false;
+          if (TienePuntos_o_Faltas) grabar=(PlayerV[indice1].orden<5 && PlayerV[indice2].orden >=5) || (PlayerV[indice1].orden>=5 && PlayerV[indice2].orden <5);
+
+          if (grabar){
+             orden="S";
+             if (PlayerV[indice1].orden<5) orden="E"
+             F_Historico.add(PlayerV[indice1].id,"V",Periodo.ObtenerCuarto(),"C",orden);
+             orden="S";
+             if (PlayerV[indice2].orden<5) orden="E"
+             F_Historico.add(PlayerV[indice2].id,"V",Periodo.ObtenerCuarto(),"C",orden);
           } 
         }
 
@@ -377,7 +400,7 @@ angular.module('starter.services', [])
 
 
     HistAcciones=[];
-    if (true) {
+    if (false) {
       if (localStorage.getItem("historico") != null) {
         var cadena=localStorage.getItem("historico");
         HistAcciones=JSON.parse(cadena);
@@ -390,6 +413,13 @@ angular.module('starter.services', [])
   return {
     all: function() {
       return HistAcciones;
+    },
+    allplayerN: function(Jug,Equi) {
+      console.log( Jug + " -- " + Equi);
+      return  HistAcciones.filter(function(item){
+        return item.id == Jug && item.Equipo===Equi;
+      });
+
     },
     add: function(idJugador,Equipo,vPeriodo,Accion,puntos){
 
@@ -441,14 +471,15 @@ angular.module('starter.services', [])
 
   function LimpiarJugadores(JugId,Cuarto) {
         jugs=[];
-        for (var i = 0; i < 11; i++) {
+        for (var i = 0; i < 12; i++) {
+          var imagen="img/Visit" + String(i+4) + ".png";
           var obj = {};
           obj["id"] = i;
           obj["dorsal"] = i+4;
           obj["orden"] = i;
           obj["nombre"] = "Jugador dorsal " + String( i +4);
           obj["faltas"] = 0;
-          obj["face"] = "img/ben.png";
+          obj["face"] =imagen ;
           obj["puntos"] = 0;
           jugs.push(obj);      
       }
@@ -484,7 +515,7 @@ angular.module('starter.services', [])
     orden: 2,
     nombre: 'Yoyo Barri',
     faltas: 0,
-    face: 'img/ben.png',
+    face: 'img/local4.png', 
     puntos: 0
   }, {
     id: 1,
@@ -492,7 +523,7 @@ angular.module('starter.services', [])
     orden: 3,
     nombre: 'Pepedona',
     faltas: 0,
-    face: 'img/max.png',
+    face: 'img/local5.png',
     puntos: 0
   }, {
     id: 2,
@@ -500,7 +531,7 @@ angular.module('starter.services', [])
     orden: 4,
     nombre: 'Ximo JaggerMaster',
     faltas: 0,
-    face: 'img/ben.png',
+    face: 'img/local6.png',
     puntos: 0
   }, {
     id: 3,
@@ -508,7 +539,7 @@ angular.module('starter.services', [])
     orden: 5,
     nombre: 'The mexican Cati',
     faltas: 0,
-    face: 'img/max.png',
+    face: 'img/local7.png',
     puntos: 0
   }, {
     id: 4,
@@ -516,7 +547,7 @@ angular.module('starter.services', [])
     orden: 1,
     nombre: 'Mr Bocina',
     faltas: 0,
-    face: 'img/ben.png',
+    face: 'img/local8.png',
     puntos: 0
   }, {
     id: 5,
@@ -524,7 +555,7 @@ angular.module('starter.services', [])
     orden: 6,
     nombre: 'Lobezno',
     faltas: 0,
-    face: 'img/ben.png',
+    face: 'img/local9.png',
     puntos: 0
   }, {
     id: 6,
@@ -532,7 +563,7 @@ angular.module('starter.services', [])
     orden: 7,
     nombre: 'Pistol Coque',
     faltas: 0,
-    face: 'img/max.png',
+    face: 'img/local10.png',
     puntos: 0
   }, {
     id: 7,
@@ -540,7 +571,7 @@ angular.module('starter.services', [])
     orden:8,
     nombre: 'Moñaspower',
     faltas: 0,
-    face: 'img/ben.png',
+    face: 'img/local11.png',
     puntos: 0
   }, {
     id: 8,
@@ -548,7 +579,7 @@ angular.module('starter.services', [])
     orden: 12,
     nombre: 'LaserMan',
     faltas: 0,
-    face: 'img/max.png',
+    face: 'img/local12.png',
     puntos: 0
   }, {
     id: 9,
@@ -556,15 +587,15 @@ angular.module('starter.services', [])
     orden: 9,
     nombre: 'Cirujano',
     faltas: 0,
-    face: 'img/ben.png',
+    face: 'img/local13.png',
     puntos: 0
   }, {
     id: 10,
-    dorsal: 10,
+    dorsal: 15,
     orden: 10,
     nombre: 'Flash Benja',
     faltas: 0,
-    face: 'img/max.png',
+    face: 'img/local15.png',
     puntos: 0
   }, {
     id: 11,
@@ -572,7 +603,7 @@ angular.module('starter.services', [])
     orden: 2,
     nombre: 'Ximo B-52',
     faltas: 0,
-    face: 'img/max.png',
+    face: 'img/local17.png',
     puntos: 0
   }
   ];

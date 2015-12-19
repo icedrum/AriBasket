@@ -1,6 +1,6 @@
 angular.module('starter.controllers', [])
 
-.controller('DashCtrl', function($scope,EquipoLocal,EquipoVisitante,Periodo) {
+.controller('DashCtrl', function($scope,EquipoLocal,EquipoVisitante,Periodo,F_Historico) {
   // $scope.EquipoLocalNombre=EquipoLocal.getNombre();
   // $scope.EquipoLocalPuntos=EquipoLocal.getPuntos();
   // $scope.EquipoVisitanteNombre=EquipoVisitante.getNombre();
@@ -20,10 +20,25 @@ angular.module('starter.controllers', [])
     $scope.EquipoVisitantePuntos=EquipoVisitante.getPuntos();
     $scope.Queperiodo=Periodo.PonerNombreCuarto();
     $scope.QueMinuto=Periodo.TiempoFormateado(); 
-
+    $scope.NumCuarto=Periodo.ObtenerCuarto();
+    $scope.LocalMas4=Mas4Faltas("L");
+    $scope.VisitanteMas4=Mas4Faltas("V");
   });
 
-  
+  //L local   V Visitante
+  Mas4Faltas=function(Equipo){
+    var FaltasEnEste=0;
+    var acciones=F_Historico.all();
+    for (var i = 0; i < acciones.length; i++) {
+      if (acciones[i].Accion == "F") {  
+        if (acciones[i].Periodo == $scope.NumCuarto) {
+           if (acciones[i].Equipo == Equipo) FaltasEnEste=FaltasEnEste+1;           
+        }
+      }
+    }
+    return FaltasEnEste>4
+  }
+
 
   $scope.CambioSlide=function(value){
       Periodo.PonerMinutosDesde100(value);
@@ -33,29 +48,40 @@ angular.module('starter.controllers', [])
 
 .controller('ChatsCtrl', function($scope,  $stateParams,F_Historico,EquipoVisitante) {
     
-        $scope.ElHistorico=F_Historico.all();
+     
 
         
-        // L  local      V visitante       T todos
-        //if ($stateParams.OpcionEquipoJugador=="") $stateParams.OpcionEquipoJugador="T";
-        $scope.Opcion =$stateParams.OpcionEquipoJugador.substr(1,1);
-        $scope.IdJugador=$stateParams.OpcionEquipoJugador.substr(2);
-        console.log(        $scope.Opcion + " " + $stateParams.OpcionEquipoJugador);
-        
-        $scope.AuxId=110;
-  
-    $scope.$on('$ionicView.enter',function(e){
+      // L  local      V visitante       T todos
+      //if ($stateParams.OpcionEquipoJugador=="") $stateParams.OpcionEquipoJugador="T";
+      $scope.Opcion =$stateParams.OpcionEquipoJugador.substr(1,1);
+      $scope.IdJugador=$stateParams.OpcionEquipoJugador.substr(2);
+      
+      
+      $scope.AuxId=110;
+
       $scope.EquipoV=EquipoVisitante.getPlayers();
-      if ($scope.Opcion == "V") {          
-          $scope.jugador= $scope.EquipoV[$scope.IdJugador];
-        } else {
+       
 
-        } 
-    });
-    
+      $scope.$on('$ionicView.enter',function(e){
+       
+        if ($scope.Opcion == "V") {          
+            $scope.jugador= $scope.EquipoV[$scope.IdJugador];
+          } else {
+
+          } 
+
+      });
+
+      if ($scope.Opcion == "T") {
+          $scope.ElHistorico=F_Historico.all();
+        } else
+        {
+          vEq =$stateParams.OpcionEquipoJugador.substr(1,1);
+          vJug=$stateParams.OpcionEquipoJugador.substr(2);
+          $scope.ElHistorico=F_Historico.allplayerN(vJug,vEq);    
+        };
 
     $scope.NombreJugador=function(LocalVisitante,KJugador){
-        console.log("E" + LocalVisitante + " -  " + String(KJugador) );
         
         if (String(LocalVisitante) == "V") {          
           return $scope.EquipoV[KJugador].nombre;
