@@ -24,7 +24,7 @@
               </label>
               
                </p>
-                <p>Puntos:    <b>{{jugador.puntos}}</b>     Faltas:  <b>{{jugador.faltas}}</b>    </p>
+                <p>Puntos:    <b>{{jugador.puntos}}</b>        Faltas:  <b>{{jugador.faltas}}</b></p>
             </td>
           </tr>
         </table>
@@ -34,10 +34,10 @@
       <a class="item" ng-show="Opcion == 'T'" >
                
         <div class="row" >         
-         <div class="col col-50" align="left">
+         <div class="col col-33" align="left">
             <label class="item  item-select">
- 
-              <select>
+               <h5>Periodo</h5>
+              <select ng-model="filtroPeriodo" ng-change="selectUpdatedPer(filtroPeriodo)">
                 <option selected="">Todos</option>
                 <option>Primero</option>
                 <option>Segundo</option>
@@ -45,18 +45,26 @@
                 <option>Cuarto</option>
               </select>
             </label>
-
-
-
-
           </div>           
           
-          <div class="col col-50">
+          <div class="col col-33">
               <label class="item item-select">
-                <select>
+                <h5>Equipo</h5>
+                <select  ng-model="filtroEquipo" ng-change="selectUpdatedEqu(filtroEquipo)">
                   <option>Ambos</option>
                   <option>Local</option>
                   <option selected>Visitante</option>
+                </select>
+              </label>
+          </div>   
+          <div class="col col-33">
+              <label class="item item-select">
+                <h5>Acción</h5>
+                <select  ng-model="filtroAccion" ng-change="selectUpdatedAcc(filtroAccion)">
+                  <option selected>Todas</option>
+                  <option>Puntos</option>
+                  <option>Faltas</option>
+                  <option>Cambios</option>
                 </select>
               </label>
           </div>   
@@ -93,11 +101,10 @@
 
 
         <div class="row" >
-                <div class="col col-10" align="center">Per.</div>
+                <div class="col col-20" align="center">Minu.</div>               
                 <div class="col col-10" align="center">Equ.</div>
                 <div class="col col-50" align="left" ng-show="Opcion=='T'">Nombre</div>
-                <div class="col col-20" align="left">Acc</div>
-                <div class="col col-10" align="left" >Val</div>
+                <div class="col col-20" align="left">Accion</div>                
         </div>
 
 
@@ -106,17 +113,16 @@
 
 
 
-            <div class="row" >
-              <div class="col col-10" align="left">{{his.Periodo}}</div>
-              <div class="col col-10" align="left">{{his.Equipo}}</div>
+            <div class="row no-padding" ng-class="$even ? 'even' : 'odd'" >
+              
+              <div class="col col-20" align="left">{{his.Periodo}}&nbsp;{{his.minuto}}</div>
+              <div class="col col-10" align="center">{{his.Equipo}}</div>
 
               <div class="col col-50" ng-show="Opcion=='T'" align="left" ng-init="AuxId=NombreJugador(his.Equipo,his.id);">
-                 
                   {{AuxId}} 
               </div>
 
-              <div class="col col-20" align="left" ng-init="vAccion=LaAccion(his.Accion);">{{vAccion}}</div>
-              <div class="col col-10" align="left">{{his.puntos}}</div>
+              <div class="col col-20" align="left" ng-init="vAccion=LaAccion(his.Accion);">{{vAccion}}&nbsp;{{his.puntos}}</div>
             </div>
 
         

@@ -8,8 +8,8 @@ angular.module('starter.controllers', [])
 
 
 
-
-  $scope.valor=Periodo.Tiempo100();
+  $valor=0;
+  $valor=Periodo.Tiempo100();
   
 
 
@@ -23,6 +23,7 @@ angular.module('starter.controllers', [])
     $scope.NumCuarto=Periodo.ObtenerCuarto();
     $scope.LocalMas4=Mas4Faltas("L");
     $scope.VisitanteMas4=Mas4Faltas("V");
+    $valor=Periodo.Tiempo100();
   });
 
   //L local   V Visitante
@@ -38,6 +39,17 @@ angular.module('starter.controllers', [])
     }
     return FaltasEnEste>4
   }
+
+  $scope.CambiarCuarto=function(Incremento){     
+      Periodo.CambiarCuarto(Incremento);
+      $scope.Queperiodo=Periodo.PonerNombreCuarto();
+      $scope.QueMinuto=Periodo.TiempoFormateado(); 
+      $scope.NumCuarto=Periodo.ObtenerCuarto();
+      $scope.LocalMas4=false;
+      $scope.VisitanteMas4=false;
+      $valor=Periodo.Tiempo100();
+  };
+
 
 
   $scope.CambioSlide=function(value){
@@ -56,6 +68,8 @@ angular.module('starter.controllers', [])
       $scope.Opcion =$stateParams.OpcionEquipoJugador.substr(1,1);
       $scope.IdJugador=$stateParams.OpcionEquipoJugador.substr(2);
       
+      
+  
       
       $scope.AuxId=110;
 
@@ -89,7 +103,41 @@ angular.module('starter.controllers', [])
           return "";
         } 
     }
-    
+    $scope.filtroPeriodo=0;
+    $scope.filtroEquipo=0;
+    $scope.filtroAccion=0;
+    $scope.selectUpdatedPer = function(filtroPeriodo) {
+        var vfiltro=0;
+        if (filtroPeriodo == "Primero") vfiltro=1;
+        if (filtroPeriodo == "Segundo") vfiltro=2;
+        if (filtroPeriodo == "Tercero") vfiltro=3;
+        if (filtroPeriodo == "Cuarto") vfiltro=4;
+        $scope.filtroPeriodo=vfiltro;
+        ValoreConFiltro();
+    }
+    $scope.selectUpdatedEqu = function(filtroEquipo) {
+        $scope.filtroEquipo=filtroEquipo.substr(0,1);
+        ValoreConFiltro();
+    }
+    $scope.selectUpdatedAcc = function(filtroAccion) {
+        $scope.filtroAccion=filtroAccion.substr(0,1);
+        ValoreConFiltro();
+    }
+
+
+    ValoreConFiltro=function(){
+      // console.log("Filtro cambiado: ");      
+      // console.log("Periodo: " + $scope.filtroPeriodo);
+      // console.log("Equipo: " + $scope.filtroEquipo);
+      // console.log("Accion: " + $scope.filtroAccion);
+
+      $scope.ElHistorico=F_Historico.fitro($scope.filtroPeriodo,$scope.filtroEquipo, $scope.filtroAccion);    
+      
+
+    } 
+
+
+
 
     $scope.LaAccion=function(vAccion){
       switch(vAccion) {

@@ -22,20 +22,20 @@
         <div class="col">
             <div class="item range range-positive">
               <i class="icon ion-pinpoint"></i>
-                <input type="range" ng-model="valor" ng-change="CambioSlide(valor)" name="volume" min="0" max="100" value="{{valor}}">
+                <input type="range" ng-model="valor" ng-change="CambioSlide(valor)" name="valor" min="0" max="100" value="valor">
               <i class="ion-clock"></i>
             </div>
         </div>               
       </div>
       <div class="row" class="item item-body">        
         <div class="col col-67">
-          {{Queperiodo}}
+          {{Queperiodo}} ess {{valor}}
         </div>
         <div class="col col-10">
-            <img ng-src="img/izq.png"  style="width: 30px; height: 30px">
+            <img ng-src="img/izq.png" ng-click="CambiarCuarto(-1)" style="width: 30px; height: 30px">
         </div>     
         <div class="col col-10">
-            <img ng-src="img/der.png"  style="width: 30px; height: 30px">
+            <img ng-src="img/der.png"  ng-click="CambiarCuarto(1)" style="width: 30px; height: 30px">
         </div>   
       </div>
 

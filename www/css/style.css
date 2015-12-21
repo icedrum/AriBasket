@@ -1,1 +1,14 @@
 /* Empty. Add your own CSS if you like */
+.odd {
+  background: gray;
+  color: white;
+}
+.even {
+  background: white;
+  color: black;
+}
+
+
+.no-padding {
+    padding: 0px !important;
+}

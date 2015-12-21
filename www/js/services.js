@@ -155,7 +155,7 @@ angular.module('starter.services', [])
         if (PlayerV[i].id === parseInt(JugId)) {
           PlayerV[i].puntos=PlayerV[i].puntos + Cuantos;
           //idJugador,Equipo,vPeriodo,Accion,puntos
-          F_Historico.add(PlayerV[i].id,"V",Periodo.ObtenerCuarto(),"P",Cuantos)
+          F_Historico.add(PlayerV[i].id,"V",Periodo.ObtenerCuarto(),"P",Cuantos,Periodo.TiempoFormateado())
           }
       }
   }
@@ -168,7 +168,7 @@ angular.module('starter.services', [])
           if ( PlayerV[i].faltas<5){
             PlayerV[i].faltas=PlayerV[i].faltas + 1;
             encontrado=true;
-            F_Historico.add(PlayerV[i].id,"V",Periodo.ObtenerCuarto(),"F",1)
+            F_Historico.add(PlayerV[i].id,"V",Periodo.ObtenerCuarto(),"F",1,Periodo.TiempoFormateado())
 
 
           }else{
@@ -236,7 +236,6 @@ angular.module('starter.services', [])
 
         for (var j = 0;j < 12; j++) {
           if (PlayerV[j].puntos>0 || PlayerV[j].faltas>0){
-            console.log("Este: " + PlayerV[j].nombre)
             TienePuntos_o_Faltas =true;
             j=13;
           } 
@@ -275,10 +274,10 @@ angular.module('starter.services', [])
           if (grabar){
              orden="S";
              if (PlayerV[indice1].orden<5) orden="E"
-             F_Historico.add(PlayerV[indice1].id,"V",Periodo.ObtenerCuarto(),"C",orden);
+             F_Historico.add(PlayerV[indice1].id,"V",Periodo.ObtenerCuarto(),"C",orden,Periodo.TiempoFormateado());
              orden="S";
              if (PlayerV[indice2].orden<5) orden="E"
-             F_Historico.add(PlayerV[indice2].id,"V",Periodo.ObtenerCuarto(),"C",orden);
+             F_Historico.add(PlayerV[indice2].id,"V",Periodo.ObtenerCuarto(),"C",orden,Periodo.TiempoFormateado());
           } 
         }
 
@@ -289,17 +288,25 @@ angular.module('starter.services', [])
 
 .service('Periodo',function(){
   var QueCuarto =1;
-  var TiempoActualEnSegundos=300;
+  var TiempoActualEnSegundos=0;
 
    this.ObtenerCuarto=function(){
       return QueCuarto;
    }  
 
-   this.PonerCuarto = function(CualPeriodo){
-      if (CualPeriodo<1)
-          CualPeriodo=1;
-        QueCuarto=CualPeriodo;
+   this.CambiarCuarto = function(Mas_o_menos){
+      
+      var incremento=1;      
+      if (Mas_o_menos <0)   incremento=-1;
+
+      if (QueCuarto==1 && Mas_o_menos ==-1) {
+      }
+      else {
+        QueCuarto=QueCuarto +  incremento;
+        TiempoActualEnSegundos=0;      
+      }
     }
+
 
 
 
@@ -362,8 +369,9 @@ angular.module('starter.services', [])
       MinCuarto=MinCuarto * 60 ;
 
       MinCuarto =(TiempoActualEnSegundos * 100)/MinCuarto;
-      ResulSeg = Math.round((MinCuarto));
+      MinCuarto = Math.round((MinCuarto));
       if (MinCuarto>100) MinCuarto=100;
+
       return MinCuarto ;
     }
 
@@ -414,15 +422,39 @@ angular.module('starter.services', [])
     all: function() {
       return HistAcciones;
     },
-    allplayerN: function(Jug,Equi) {
-      console.log( Jug + " -- " + Equi);
+    fitro: function(vPeriodo,vEquipo,vAccion) {
+
+        if (vPeriodo==0 && vEquipo=="A" && vAccion=="T") return HistAcciones;
+        console.log("Fitrol: " + String(vPeriodo) +  vEquipo + vAccion);
+        var SeDevuelve;
+        var ArrayDevuelto=[];
+        for (var j = 0;j < HistAcciones.length; j++) {
+          SeDevuelve=true;
+
+          if (vPeriodo>0) {
+            if (HistAcciones[j].Periodo!=vPeriodo)  SeDevuelve=false;
+          }
+
+          if (vEquipo != "A") {
+            if (HistAcciones[j].Equipo !=vEquipo)  SeDevuelve=false;
+          }
+
+          if (vAccion != "T") {
+            if (HistAcciones[j].Accion!=vAccion)  SeDevuelve=false;
+          }
+
+          if (SeDevuelve) ArrayDevuelto.push(HistAcciones[j]);          
+          
+        };    
+        return ArrayDevuelto
+    },
+    allplayerN: function(Jug,Equi) {      
       return  HistAcciones.filter(function(item){
         return item.id == Jug && item.Equipo===Equi;
       });
 
     },
-    add: function(idJugador,Equipo,vPeriodo,Accion,puntos){
-
+    add: function(idJugador,Equipo,vPeriodo,Accion,puntos,MinutoPartido){          
           var obj = {};
           obj["id"] = idJugador;
           obj["Equipo"] = Equipo;
@@ -430,6 +462,7 @@ angular.module('starter.services', [])
           obj["Accion"] = Accion;
           obj["faltas"] = 0;
           obj["puntos"] = puntos;
+          obj["minuto"] = MinutoPartido;
           obj["hora"] =  Date.now();
           HistAcciones.push(obj);
           //console.log(obj);
