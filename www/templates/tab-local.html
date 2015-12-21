@@ -1,28 +1,52 @@
-<ion-view view-title="{{vEquipoLocal}}" > 
+<ion-view view-title="Local">
   <ion-content>
-
-
-      <div class="item item-divider"><h2>{{EquipoLocalNombre}}</h2></div>
-          <ion-list>
-              
-
-                <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="jug in jugadoresL  | orderBy:'orden'" type="item-text-wrap">
-
-                  
-
-
-                <img ng-src="{{jug.face}}">
-                <h2>{{jug.nombre}}</h2>
-                <p>{{jug.puntos}}</p>
-                <i class="icon ion-chevron-right icon-accessory"></i>
-                
-              </ion-item>
-            </ion-list>
+    
+       <div class="item item-divider"></div>
    
+        <div class="row">
+            <div class="col col-50">Equipo</div>
+            <div class="col col-20">Guardar</div>
+            <div class="col col-20">Cambio</div>
+        </div>
+
+
+          <div class="row">
+            <div class="col col-50">                  
+                    <ion-label><input type="text" ng-style="{ 'background' : bgColor }" value="{{Nombre}}"> </ion-label>                         
+            </div>
+            <div class="col col-20">
+              <button class="button button-icon icon ion-document-text"
+                  ng-click="guardarDatos()"></button>
+            </div>
+            <div class="col col-20" style="padding:0;">
+              <ion-toggle ng-model=value ng-change="toggleChange()" style="padding:2;" ></ion-toggle>  </div>
+        </div>
 
 
 
-   
 
+    <ion-list  show-reorder="data.showReorder">  
+     
+        <div class="item item-divider"><h2>{{nombre}}</h2></div>
+        <ion-item class="item-remove-animate item-avatar item-icon-right" can-swipe="true" ng-repeat="jug in EquipoLocal  | orderBy:'orden'" type="item-text-wrap" >
+
+
+
+          <img ng-src="{{jug.face}}"> 
+          <h2>{{jug.nombre}}</h2>
+          <p>{{jug.puntos}}</p>
+
+          <ion-reorder-button class="ion-navicon" on-reorder="moveItem(jug, $fromIndex, $toIndex)"></ion-reorder-button>
+          <span ng-if="data.showReorder == false">
+
+           <a href="#/tab/chats/:L{{jug.id}}">
+            <i class="icon ion-person">
+            </i>
+            </a>
+            
+          </span>
+        </ion-item>
+
+    </ion-list>
   </ion-content>
 </ion-view>

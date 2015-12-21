@@ -58,7 +58,7 @@ angular.module('starter.controllers', [])
   };
 })
 
-.controller('ChatsCtrl', function($scope,  $stateParams,F_Historico,EquipoVisitante) {
+.controller('ChatsCtrl', function($scope,  $stateParams,F_Historico,EquipoVisitante,EquipoLocal) {
     
      
 
@@ -73,15 +73,16 @@ angular.module('starter.controllers', [])
       
       $scope.AuxId=110;
 
-      $scope.EquipoV=EquipoVisitante.getPlayers();
-       
+      $scope.EquipoV=EquipoVisitante.getPlayers(); 
+      $scope.EquipoL=EquipoLocal.getPlayers();
 
       $scope.$on('$ionicView.enter',function(e){
        
         if ($scope.Opcion == "V") {          
             $scope.jugador= $scope.EquipoV[$scope.IdJugador];
           } else {
-
+    
+            $scope.jugador= $scope.EquipoL[$scope.IdJugador];  
           } 
 
       });
@@ -92,6 +93,7 @@ angular.module('starter.controllers', [])
         {
           vEq =$stateParams.OpcionEquipoJugador.substr(1,1);
           vJug=$stateParams.OpcionEquipoJugador.substr(2);
+          console.log("Equipo" + vEq);
           $scope.ElHistorico=F_Historico.allplayerN(vJug,vEq);    
         };
 
@@ -100,12 +102,12 @@ angular.module('starter.controllers', [])
         if (String(LocalVisitante) == "V") {          
           return $scope.EquipoV[KJugador].nombre;
         } else {
-          return "";
+          return  $scope.EquipoL[KJugador].nombre;;
         } 
     }
     $scope.filtroPeriodo=0;
-    $scope.filtroEquipo=0;
-    $scope.filtroAccion=0;
+    $scope.filtroEquipo="A";
+    $scope.filtroAccion="T";
     $scope.selectUpdatedPer = function(filtroPeriodo) {
         var vfiltro=0;
         if (filtroPeriodo == "Primero") vfiltro=1;
@@ -184,9 +186,32 @@ angular.module('starter.controllers', [])
 
 
 .controller('LocalCtrl', function($scope, $stateParams,EquipoLocal) {
-  // $scope.chats = Chats.all();
-    $scope.jugadoresL=EquipoLocal.getPlayers();
-    $scope.vEquipoLocal=EquipoLocal.getNombre();
+     $scope.EquipoLocal=EquipoLocal.getPlayers();
+     $scope.Nombre=EquipoLocal.getNombre();
+     $scope.width = '80px';
+     $scope.bgColor = 'grey';
+    
+     $scope.value=true;
+     $scope.data = {
+          showDelete: $scope.value,
+          showReorder: !$scope.value
+        };
+        
+
+      $scope.toggleChange = function(){
+        $scope.value=!$scope.value;
+        $scope.data.showDelete=$scope.value;
+        $scope.data.showReorder=!$scope.value;
+      }
+
+      $scope.moveItem = function(item, fromIndex, toIndex) {  
+          EquipoLocal.Cambio(fromIndex, toIndex);  
+      };
+
+
+      $scope.guardarDatos=function(){
+          EquipoVisitante.GuardarDatosFich();
+      }
 })
 
 .controller('VisitanteCtrl', function($scope, $stateParams,EquipoVisitante) {

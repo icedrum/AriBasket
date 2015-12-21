@@ -3,7 +3,7 @@ angular.module('starter.services', [])
 
 
 
-.service('EquipoLocal',function(DatosPorDefectoCHE){
+.service('EquipoLocal',function(DatosPorDefectoCHE,F_Historico,Periodo){
   var NombreEquipo="Rockeros CHE";
   var vPuntos=0;
   var faltasEquipoCuarto=[0,0,0,0,0,0,0,0,0,0];
@@ -42,6 +42,7 @@ angular.module('starter.services', [])
         
         if (PlayerV[i].id == parseInt(JugId)) {
           PlayerV[i].puntos=PlayerV[i].puntos + Cuantos;
+          F_Historico.add(PlayerV[i].id,"L",Periodo.ObtenerCuarto(),"P",Cuantos,Periodo.TiempoFormateado())
           }
       }
     }
@@ -88,26 +89,33 @@ angular.module('starter.services', [])
     this.sumPuntos = function(Cuantos,JugId ){
         SumaLosPuntos(JugId,Cuantos);
         vPuntos = vPuntos + Cuantos;
-         
-        //var Cadena="Local " + String(vPuntos) + " " + String(JugId);
-        //alert(Cadena);
+
     }     
 
     this.faltaPersonal = function(Cuarto,JugId ){
         AnyadirFaltaPerosnal(JugId,Cuarto);
 
-         
-        //var Cadena="Local " + String(vPuntos) + " " + String(JugId);
-        //alert(Cadena);
+         for (var i = 0; i < PlayerV.length; i++) {
+        
+            if (PlayerV[i].id == parseInt(JugId)) {
+              if ( PlayerV[i].faltas<5){
+                PlayerV[i].faltas=PlayerV[i].faltas + 1;
+                
+                F_Historico.add(PlayerV[i].id,"L",Periodo.ObtenerCuarto(),"F",1,Periodo.TiempoFormateado())
+
+
+              }else{
+                  alert("Ya tiene 5 faltas!!!");
+
+              }
+        }
+      }
     } 
 
 
     this.GuardarDatosFich=function(){
 
-        for (var i = 0; i < $scope.EquipoVisitante.length; i++) {
-         console.log(i + $scope.EquipoVisitante[i].nombre);
-         console.log(JSON.stringify($scope.EquipoVisitante[i]));
-        }
+   
 
 
         var cadena = JSON.stringify($scope.EquipoVisitante);
@@ -116,6 +124,65 @@ angular.module('starter.services', [])
         localStorage.setItem("s", "El imperio contraataca");
 
     }
+
+    this.Cambio= function(Origen,Fin) {
+        //Para que no haga los cambios iniciales (poner el 5 titular)
+        var TienePuntos_o_Faltas=false;
+        var cadena = String(Origen) + " " + String(Fin);
+        console.log(cadena);
+        orden=13;
+        indice1=20;
+        indice2=20;
+
+        //Para saber si tiene puntos o faltas
+
+        for (var j = 0;j < 12; j++) {
+          if (PlayerV[j].puntos>0 || PlayerV[j].faltas>0){
+            TienePuntos_o_Faltas =true;
+            j=13;
+          } 
+        };
+
+
+        for (var j = 0;j < 12; j++) {
+          if (PlayerV[j].orden==Origen)
+          {
+            indice1=j;
+            j=13;
+          }
+        };
+        for (var j = 0;j < 12; j++) {
+          if (PlayerV[j].orden==Fin)
+          {
+            indice2=j;
+            j=13;
+          }
+        };
+
+        if (indice1==20 || indice2==20)
+        {
+          //("Maaaal")
+        }
+        else
+        {
+          var orden =PlayerV[indice1].orden; 
+          PlayerV[indice1].orden=PlayerV[indice2].orden;
+          PlayerV[indice2].orden=orden;
+          // Or exlusivo
+          //return ( a || b ) && !( a && b );
+          var grabar=false;
+          if (TienePuntos_o_Faltas) grabar=(PlayerV[indice1].orden<5 && PlayerV[indice2].orden >=5) || (PlayerV[indice1].orden>=5 && PlayerV[indice2].orden <5);
+
+          if (grabar){
+             orden="S";
+             if (PlayerV[indice1].orden<5) orden="E"
+             F_Historico.add(PlayerV[indice1].id,"L",Periodo.ObtenerCuarto(),"C",orden,Periodo.TiempoFormateado());
+             orden="S";
+             if (PlayerV[indice2].orden<5) orden="E"
+             F_Historico.add(PlayerV[indice2].id,"L",Periodo.ObtenerCuarto(),"C",orden,Periodo.TiempoFormateado());
+          } 
+        }
+     }   
 
 })
 
