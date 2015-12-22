@@ -4,8 +4,10 @@
        <div class="item item-divider"></div>
    
         <div class="row">
-            <div class="col col-50">Equipo</div>
-            <div class="col col-20">Guardar</div>
+            <div class="col col-50">Equipo
+               <img ng-src="img/save.png" ng-click="guardarDatos()" style="width: 15px; height: 15  px">
+            </div>
+            
             <div class="col col-20">Cambio</div>
         </div>
 
@@ -14,10 +16,7 @@
             <div class="col col-50">                  
                     <ion-label><input type="text" ng-style="{ 'background' : bgColor }" value="{{Nombre}}"> </ion-label>                         
             </div>
-            <div class="col col-20">
-              <button class="button button-icon icon ion-document-text"
-                  ng-click="guardarDatos()"></button>
-            </div>
+        
             <div class="col col-20" style="padding:0;">
               <ion-toggle ng-model=value ng-change="toggleChange()" style="padding:2;" ></ion-toggle>  </div>
         </div>
@@ -34,7 +33,7 @@
 
           <img ng-src="{{jug.face}}"> 
           <h2>{{jug.nombre}}</h2>
-          <p>{{jug.puntos}}</p>
+          <p>Puntos:    <b>{{jug.puntos}}</b> &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;Faltas:  <b>{{jug.faltas}}</b></p>
 
           <ion-reorder-button class="ion-navicon" on-reorder="moveItem(jug, $fromIndex, $toIndex)"></ion-reorder-button>
           <span ng-if="data.showReorder == false">

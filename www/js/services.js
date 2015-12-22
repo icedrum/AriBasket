@@ -6,36 +6,28 @@ angular.module('starter.services', [])
 .service('EquipoLocal',function(DatosPorDefectoCHE,F_Historico,Periodo){
   var NombreEquipo="Rockeros CHE";
   var vPuntos=0;
-  var faltasEquipoCuarto=[0,0,0,0,0,0,0,0,0,0];
- // Some fake testing data
-  var PlayerV = [{
-    id: 4,
-    dorsal: 4,
-    orden: 1,
-    nombre: 'Javi',   
-    faltas: 0,
-    face: 'img/ben.png',
-    puntos: 0
-  }, {
-    id: 5,
-    dorsal: 55,
-    orden: 3,
-    nombre: 'Pepe',
-    faltas: 0,
-    face: 'img/max.png',
-    puntos: 0
-  },{
-    id: 8,
-    dorsal: 8,
-    orden: 2,
-    nombre: 'David',
-    faltas: 0,
-    face: 'img/mike.png',
-    puntos: 0
-  }];
 
-  PlayerV=[];
+
+  var PlayerV=[];
   PlayerV=DatosPorDefectoCHE.all();
+
+
+    if (true) {
+      if (localStorage.getItem("JugadoresEquipoLocal") != null) {
+        var cadena=localStorage.getItem("JugadoresEquipoLocal");
+        PlayerV=JSON.parse(cadena);
+
+        //Leo los puntos
+        for (var i = 0; i < PlayerV.length; i++) {
+            vPuntos=vPuntos + PlayerV[i].puntos;
+          }
+      }
+      if (localStorage.getItem("NombreEquipoLocal") != null) {
+        NombreEquipo=localStorage.getItem("NombreEquipoLocal");
+      }
+
+    }
+
 
     function SumaLosPuntos(JugId,Cuantos) {
       for (var i = 0; i < PlayerV.length; i++) {
@@ -60,11 +52,6 @@ angular.module('starter.services', [])
 
           }
         }
-      }
-      if (encontrado){
-          faltasEquipoCuarto[Cuarto-1]=faltasEquipoCuarto[Cuarto-1] +1;
-      }else{
-          alert("Maaaal");
       }
     }    
 
@@ -112,17 +99,22 @@ angular.module('starter.services', [])
       }
     } 
 
+    this.LimpiarJugadores=function(DatosRockeros){
 
-    this.GuardarDatosFich=function(){
+      PlayerV=PlayerV=DatosPorDefectoCHE.clear(DatosRockeros);  
+      vPuntos=0;
+      GuardarDatosFich(true); 
 
-   
+    }
 
-
-        var cadena = JSON.stringify($scope.EquipoVisitante);
-        console.log(cadena);
-        localStorage.setItem("a", cadena);    
-        localStorage.setItem("s", "El imperio contraataca");
-
+    this.GuardarDatosFich=function(DesdeDentro){
+        var cadena = JSON.stringify(PlayerV);
+        localStorage.setItem("JugadoresEquipoLocal", cadena);    
+        localStorage.setItem("NombreEquipoLocal","ooo");
+        if (!DesdeDentro){ 
+          F_Historico.guardar();
+          Periodo.GuardarDatosFich();
+        }
     }
 
     this.Cambio= function(Origen,Fin) {
@@ -180,6 +172,10 @@ angular.module('starter.services', [])
              orden="S";
              if (PlayerV[indice2].orden<5) orden="E"
              F_Historico.add(PlayerV[indice2].id,"L",Periodo.ObtenerCuarto(),"C",orden,Periodo.TiempoFormateado());
+          
+
+
+
           } 
         }
      }   
@@ -197,15 +193,19 @@ angular.module('starter.services', [])
     PlayerV=DatosPorDefectoVisit.clear();
 
 
-    if (false) {
+    if (true) {
       if (localStorage.getItem("JugadoresEquipoVisitante") != null) {
         var cadena=localStorage.getItem("JugadoresEquipoVisitante");
         PlayerV=JSON.parse(cadena);
+
+        //Leo los puntos
+        for (var i = 0; i < PlayerV.length; i++) {
+            vPuntos=vPuntos + PlayerV[i].puntos;
+        }
+
+
       }
     }
-
-   
-
 
     var NombreEquipo="El imperio";
     if (localStorage.getItem("NombreEquipoVisitante") != null) {
@@ -227,7 +227,7 @@ angular.module('starter.services', [])
       }
   }
 
-  function AnyadirFaltaPerosnal(JugId,Cuarto) {
+  function AnyadirFaltaPerosnal(JugId) {
       var encontrado =false;
       for (var i = 0; i < PlayerV.length; i++) {
         
@@ -267,27 +267,26 @@ angular.module('starter.services', [])
     this.sumPuntos = function(Cuantos,JugId ){
         SumaLosPuntos(JugId,Cuantos)
         vPuntos = vPuntos + Cuantos;
-        //var Cadena="Visitante " + String(Cuantos) + " " + String(JugId) ;
-        //alert(Cadena);
     }
     this.faltaPersonal = function(Cuarto,JugId ){
         AnyadirFaltaPerosnal(JugId,Cuarto);
-
-         
-        //var Cadena="Local " + String(vPuntos) + " " + String(JugId);
-        //alert(Cadena);
     } 
 
+    this.LimpiarJugadores=function(){
+      PlayerV=DatosPorDefectoVisit.clear();
+      vPuntos=0;
+      GuardarDatosFich();        
+    }
 
     this.GuardarDatosFich=function(){
-                
-  
-
+            
         var cadena = JSON.stringify(PlayerV);
         console.log(cadena);
         localStorage.setItem("JugadoresEquipoVisitante", cadena);    
-        localStorage.setItem("NombreEquipoVisitante", "El imperio contraataca");
+        localStorage.setItem("NombreEquipoVisitante",NombreEquipo);
 
+        F_Historico.guardar();
+        Periodo.GuardarDatosFich();
     }
 
     this.Cambio= function(Origen,Fin) {
@@ -357,8 +356,37 @@ angular.module('starter.services', [])
   var QueCuarto =1;
   var TiempoActualEnSegundos=0;
 
+
+
+
+
+    if (true) {
+      if (localStorage.getItem("Periodo") != null) {
+        var cadena=localStorage.getItem("Periodo");
+
+        QueCuarto=parseInt(cadena.substring(0,3));
+        TiempoActualEnSegundos=parseInt(cadena.substring(3));
+      }
+    }
+
+
+    this.GuardarDatosFich=function(){
+            
+        var cadena="000";
+        cadena=cadena + String(QueCuarto);
+        cadena=cadena.slice(-3);
+        cadena=cadena + String(TiempoActualEnSegundos);
+        localStorage.setItem("Periodo", cadena);    
+    }
+
    this.ObtenerCuarto=function(){
       return QueCuarto;
+   }  
+
+
+   this.Reiniciar=function(){
+      QueCuarto=1;
+      TiempoActualEnSegundos=0;
    }  
 
    this.CambiarCuarto = function(Mas_o_menos){
@@ -372,6 +400,7 @@ angular.module('starter.services', [])
         QueCuarto=QueCuarto +  incremento;
         TiempoActualEnSegundos=0;      
       }
+      GuardarDatosFich();
     }
 
 
@@ -475,7 +504,7 @@ angular.module('starter.services', [])
 
 
     HistAcciones=[];
-    if (false) {
+    if (true) {
       if (localStorage.getItem("historico") != null) {
         var cadena=localStorage.getItem("historico");
         HistAcciones=JSON.parse(cadena);
@@ -483,6 +512,12 @@ angular.module('starter.services', [])
     }
 
 
+    GuardarDatosFich=function(){
+            
+        var cadena = JSON.stringify(HistAcciones);
+        //console.log(cadena);
+        localStorage.setItem("historico", cadena);    
+    }
 
 
   return {
@@ -521,6 +556,9 @@ angular.module('starter.services', [])
       });
 
     },
+    guardar: function(){
+      GuardarDatosFich();
+    },
     add: function(idJugador,Equipo,vPeriodo,Accion,puntos,MinutoPartido){          
           var obj = {};
           obj["id"] = idJugador;
@@ -535,7 +573,9 @@ angular.module('starter.services', [])
           //console.log(obj);
     },
     clear: function() {
-      HistAcciones();
+      console.log('A' + String(HistAcciones.length));
+      HistAcciones=[];
+      console.log('D' + String(HistAcciones.length));
       return HistAcciones;
     }
   };
@@ -551,23 +591,7 @@ angular.module('starter.services', [])
   // Might use a resource here that returns a JSON array
 
   
- var jugs = [{
-    id: 11,
-    dorsal: 11,
-    orden: 2,
-    nombre: 'Anakin Skywalker',
-    faltas: 0,
-    face: 'img/ben.png',
-    puntos: 0
-  }, {
-    id: 12,
-    dorsal: 12,
-    orden: 2,
-    nombre: 'Han Solo',
-    faltas: 0,
-    face: 'img/max.png',
-    puntos: 0
-  }];
+ var jugs = [];
 
   function LimpiarJugadores(JugId,Cuarto) {
         jugs=[];
@@ -608,7 +632,7 @@ angular.module('starter.services', [])
   // Might use a resource here that returns a JSON array
 
   
- var jugs = [
+ var Che = [
  {
     id: 0,
     dorsal: 4,
@@ -699,7 +723,7 @@ angular.module('starter.services', [])
     puntos: 0
   }, {
     id: 11,
-    dorsal: 11,
+    dorsal: 17,
     orden: 2,
     nombre: 'Ximo B-52',
     faltas: 0,
@@ -707,29 +731,47 @@ angular.module('starter.services', [])
     puntos: 0
   }
   ];
+  var jugs=Che;
+  function LimpiarJugadores(PonerRockeros) {
+        
+        var imagen;
+        var dorsal;
+        var nombre;
+        for (var i = 0; i < 12; i++) {
+         
 
-  function LimpiarJugadores(JugId,Cuarto) {
-        jugs=[];
-        for (var i = 0; i < 11; i++) {
-          var obj = [];
-          obj["id"] = i;
-          obj["dorsal"] = i+4;
-          obj["orden"] = i;
-          obj["nombre"] = "Jugador dorsal " + String( i +4);
-          obj["faltas"] = 0;
-          obj["face"] = "img/ben.png";
-          obj["puntos"] = 0;
-          jugs.push(obj);      
-      }
-  }
+          
+          if (!PonerRockeros){
+            dorsal=i+4;                      
+            nombre ="Jugador dorsal " + String( i +4);  
+            imagen="img/local" + String(dorsal) + ".png";  
+          }
+          else
+          {
+            dorsal=Che[i].dorsal;
+            nombre=Che[i].nombre ;        
+            imagen=Che[i].face ; 
+          }
+          jugs[i].orden = i;
+          
+          jugs[i].dorsal=dorsal;
+          jugs[i].face=imagen;
+          jugs[i].nombre=nombre;
+          jugs[i].faltas=0;
+          jugs[i].puntos=0;
+
+         }       
+    }
+  
 
   return {
     all: function() {
+
       return jugs;
     },
 
-    clear: function() {
-      LimpiarJugadores();
+    clear: function(PonerRockeros) {
+      LimpiarJugadores(PonerRockeros);
       return jugs;
     }
   };

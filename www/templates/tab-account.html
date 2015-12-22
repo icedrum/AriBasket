@@ -1,19 +1,63 @@
 <ion-view view-title="Account">
   <ion-content>
     <ion-list>
-    <ion-toggle  ng-model="settings.enableFriends">
-        Enable Friends
-    </ion-toggle>
-
+    
 
     <div class="item item-divider"></div>
     <div class="item item-body">
 
-    	<ion-checkbox ng-model="filter.blue">Locales ROCKEROS</ion-checkbox> 
-	<button class="button button-block button-positive">
-	  Reiniciar partido
-	</button>
-	</div>
+        <ion-checkbox ng-model="checkboxModel.Rockeros">Locales ROCKEROS</ion-checkbox> 
+	       <button class="button button-block button-positive" ng-click="VaciarDatos()">
+	       Reiniciar partido
+	       </button>
+	   </div>
+
+
+
+
+
+
+
+<div class="list card">
+
+  <div class="item item-avatar">
+    <img src="img/pistabasket.png">
+    <h2>David Gandul Castells</h2>
+    <p>Diciembre 2015</p>
+  </div>
+
+  <div class="item item-body">
+    <img class="full-image" src="img/david.png">
+    <p>
+      En recuerdo de aquellos padres que venian a vernos jugar el partido con una hoja y un boli.... 
+    </p>
+    <p>
+      <a href="#" class="subdued">1 Like</a>
+      <a href="#" class="subdued">5 Comments</a>
+    </p>
+  </div>
+
+  <div class="item tabs tabs-secondary tabs-icon-left">
+    <a class="tab-item" href="#">
+      <i class="icon ion-thumbsup"></i>
+      Like
+    </a>
+    <a class="tab-item" href="#">
+      <i class="icon ion-chatbox"></i>
+      Comment
+    </a>
+    <a class="tab-item" href="#">
+      <i class="icon ion-share"></i>
+      Share
+    </a>
+  </div>
+
+</div>
+
+
+
+
+
 
     </ion-list>
   </ion-content>

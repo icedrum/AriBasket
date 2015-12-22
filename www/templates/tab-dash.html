@@ -1,4 +1,4 @@
-<ion-view view-title="Dashboard">
+<ion-view view-title="Marcador">
   <ion-content class="padding">
     <div class="list card">
       <div class="item item-divider">{{Queperiodo}}</div>
@@ -22,7 +22,7 @@
         <div class="col">
             <div class="item range range-positive">
               <i class="icon ion-pinpoint"></i>
-                <input type="range" ng-model="valor" ng-change="CambioSlide(valor)" name="valor" min="0" max="100" value="valor">
+                <input type="range" ng-model="Data.Minuto" ng-change="CambioSlide(valor)" name="valor" min="0" max="100" >
               <i class="ion-clock"></i>
             </div>
         </div>               
@@ -40,7 +40,7 @@
       </div>
 
       <div class="item item-divider">{{EquipoLocalNombre}}
-        <span class="badge badge-assertive" ng-if="LocalMas4 == true">5</span>
+        <span class="badge badge-assertive" ng-if="LocalMas4 == true">4</span>
       </div>
            
 
@@ -78,7 +78,7 @@
         <div class="item item-body"></div> 
         <div class="item item-divider">{{EquipoVisitanteNombre}}
 
-          <span class="badge badge-assertive" ng-if="VisitanteMas4 == true">5</span>
+          <span class="badge badge-assertive" ng-if="VisitanteMas4 == true">4</span>
         </div>
         
           <div class="row" class="item item-body">

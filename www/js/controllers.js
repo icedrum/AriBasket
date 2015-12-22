@@ -7,9 +7,9 @@ angular.module('starter.controllers', [])
   // $scope.EquipoVisitantePuntos=EquipoVisitante.getPuntos();
 
 
-
-  $valor=0;
-  $valor=Periodo.Tiempo100();
+  $scope.Data = {
+       Minuto : Periodo.Tiempo100()
+   }
   
 
 
@@ -23,7 +23,7 @@ angular.module('starter.controllers', [])
     $scope.NumCuarto=Periodo.ObtenerCuarto();
     $scope.LocalMas4=Mas4Faltas("L");
     $scope.VisitanteMas4=Mas4Faltas("V");
-    $valor=Periodo.Tiempo100();
+    $scope.Data.Minuto=Periodo.Tiempo100();
   });
 
   //L local   V Visitante
@@ -37,7 +37,7 @@ angular.module('starter.controllers', [])
         }
       }
     }
-    return FaltasEnEste>4
+    return FaltasEnEste>3
   }
 
   $scope.CambiarCuarto=function(Incremento){     
@@ -47,13 +47,13 @@ angular.module('starter.controllers', [])
       $scope.NumCuarto=Periodo.ObtenerCuarto();
       $scope.LocalMas4=false;
       $scope.VisitanteMas4=false;
-      $valor=Periodo.Tiempo100();
+      $scope.Data.Minuto=Periodo.Tiempo100();
   };
 
 
 
   $scope.CambioSlide=function(value){
-      Periodo.PonerMinutosDesde100(value);
+      Periodo.PonerMinutosDesde100($scope.Data.Minuto);
       $scope.QueMinuto=Periodo.TiempoFormateado(); 
   };
 })
@@ -187,6 +187,7 @@ angular.module('starter.controllers', [])
 
 .controller('LocalCtrl', function($scope, $stateParams,EquipoLocal) {
      $scope.EquipoLocal=EquipoLocal.getPlayers();
+     console.log(JSON.stringify($scope.EquipoLocal));
      $scope.Nombre=EquipoLocal.getNombre();
      $scope.width = '80px';
      $scope.bgColor = 'grey';
@@ -210,7 +211,7 @@ angular.module('starter.controllers', [])
 
 
       $scope.guardarDatos=function(){
-          EquipoVisitante.GuardarDatosFich();
+          EquipoLocal.GuardarDatosFich();
       }
 })
 
@@ -303,7 +304,16 @@ angular.module('starter.controllers', [])
               EquipoVisitante.faltaPersonal(1,idJugador);
           };
 
+      };
+      if (EsElEquipoLocal)
+      {
+          EquipoLocal.GuardarDatosFich(false);
       }
+      else
+      {
+          EquipoVisitante.GuardarDatosFich();
+      }
+      
       $state.go('tab.dash');
    };
 
@@ -311,13 +321,35 @@ angular.module('starter.controllers', [])
 })
 
 
-.controller('AccountCtrl', function($scope) {
-  $scope.settings = {
-    enableFriends: false
-  };
-})
+.controller('AccountCtrl', function($scope,EquipoVisitante,EquipoLocal,Periodo,F_Historico, $ionicPopup) {
+   $scope.checkboxModel = {
+       Rockeros : true
+   }
+
+    // A confirm dialog
+  $scope.VaciarDatos = function() {
+     var confirmPopup = $ionicPopup.confirm({
+       title: 'Reiniciar',
+       template: '¿Estas seguro que quieres reiniciar?'
+     });
+
+     confirmPopup.then(function(res) {
+       if(res) {
+         VaciarDatos2();
+       } else {
+
+       }
+     });
+   };
+
+  VaciarDatos2=function(){
+      console.log('eeee');
+       localStorage.clear();
+       Periodo.Reiniciar();
+       F_Historico.clear();
+       EquipoLocal.LimpiarJugadores($scope.checkboxModel.Rockeros);
+       EquipoVisitante.LimpiarJugadores();
+  }
 
 
-
-
-;
+});
