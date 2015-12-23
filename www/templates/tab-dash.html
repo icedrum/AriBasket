@@ -6,15 +6,15 @@
       <div class="row" class="item item-body">          
         <div class="col col-50"  align="center">
           <h1>
-              {{QueMinuto}}
+              {{QueMinuto}}  
           </h1>
         </div>
         <div class="col col-10"></div>
         <div class="col col-20">
-            <img ng-src="img/play.png"  style="width: 30px; height: 30px">
+            <img ng-src="img/play.png" ng-click="AccionReloj(true)" style="width: 30px; height: 30px">
         </div>     
         <div class="col col-20">
-            <img ng-src="img/pause.png"  style="width: 30px; height: 30px">
+            <img ng-src="img/pause.png"  ng-click="AccionReloj(false)" style="width: 30px; height: 30px">
         </div>   
         
       </div>

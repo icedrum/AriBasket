@@ -458,6 +458,28 @@ angular.module('starter.services', [])
       
     }
 
+    this.SumarSegundo=function(){
+      var pararReloj=false;
+      TiempoActualEnSegundos=TiempoActualEnSegundos +1;
+      //console.log(String(QueCuarto) +  " - " + String(TiempoActualEnSegundos))
+      if (QueCuarto<5)
+        {        
+          if (TiempoActualEnSegundos>=600){
+            TiempoActualEnSegundos=600;
+            pararReloj=true;
+          }
+        }
+      else
+      {
+          if (TiempoActualEnSegundos>=300){
+            TiempoActualEnSegundos=300;
+            pararReloj=true;
+          }
+      }
+      //console.log("Paro el reloj: " + pararReloj) ;
+      return pararReloj;
+    }
+
     this.Tiempo100  = function(){
         //para el sliade range
       var MinCuarto =10;
@@ -488,14 +510,12 @@ angular.module('starter.services', [])
     }
 
 
-    this.MinutosCuarto = function(){
-      if (QueCuarto<5) 
-        return 10;
-      else
-        return 5;
-      
-       
-    }
+    //this.MinutosCuarto = function(){
+    //  if (QueCuarto<5) 
+    //    return 10;
+    //  else
+    //    return 5;
+    //     }
 })
 
 

@@ -1,6 +1,6 @@
 angular.module('starter.controllers', [])
 
-.controller('DashCtrl', function($scope,EquipoLocal,EquipoVisitante,Periodo,F_Historico) {
+.controller('DashCtrl', function($scope,EquipoLocal,EquipoVisitante,Periodo,F_Historico,$interval,$timeout) {
   // $scope.EquipoLocalNombre=EquipoLocal.getNombre();
   // $scope.EquipoLocalPuntos=EquipoLocal.getPuntos();
   // $scope.EquipoVisitanteNombre=EquipoVisitante.getNombre();
@@ -11,6 +11,32 @@ angular.module('starter.controllers', [])
        Minuto : Periodo.Tiempo100()
    }
   
+  $scope.EnMarchaReloj=false;
+  
+  var stop = $interval(function() {
+      var paroElReloj=false;      
+      $timeout(function(){
+         if ($scope.EnMarchaReloj) {
+            
+            //console.log($scope.Data.Minuto);
+            paroElReloj=Periodo.SumarSegundo();
+            //console.log(paroElReloj);  
+            $scope.QueMinuto=Periodo.TiempoFormateado(); 
+            $scope.Data.Minuto=Periodo.Tiempo100();                
+          }
+      });
+
+      if (paroElReloj) {
+            $scope.EnMarchaReloj=false;
+            
+      }                                                                                                                                                                                                                                                                   
+  }, 1000);
+
+
+  $scope.AccionReloj=function(encenderReloj){   
+    //console.log(encenderReloj);  
+    $scope.EnMarchaReloj=encenderReloj;
+  }
 
 
   $scope.$on('$ionicView.enter',function(e){
@@ -47,12 +73,14 @@ angular.module('starter.controllers', [])
       $scope.NumCuarto=Periodo.ObtenerCuarto();
       $scope.LocalMas4=false;
       $scope.VisitanteMas4=false;
+      $scope.EnMarchaReloj=false;
       $scope.Data.Minuto=Periodo.Tiempo100();
   };
 
 
 
   $scope.CambioSlide=function(value){
+      $scope.EnMarchaReloj=false;
       Periodo.PonerMinutosDesde100($scope.Data.Minuto);
       $scope.QueMinuto=Periodo.TiempoFormateado(); 
   };
