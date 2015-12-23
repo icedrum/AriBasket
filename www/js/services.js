@@ -39,22 +39,7 @@ angular.module('starter.services', [])
       }
     }
 
-    function AnyadirFaltaPerosnal(JugId,Cuarto) {
-      var encontrado =false;
-      for (var i = 0; i < PlayerV.length; i++) {
-        
-        if (PlayerV[i].id == parseInt(JugId)) {
-          if ( PlayerV[i].faltas<5){
-            PlayerV[i].faltas=PlayerV[i].faltas + 1;
-            encontrado=true;
-          }else{
-              alert("Ya tiene 5 faltas!!!");
-
-          }
-        }
-      }
-    }    
-
+    
 
    this.getPlayers=function(){
       return PlayerV;
@@ -80,11 +65,12 @@ angular.module('starter.services', [])
     }     
 
     this.faltaPersonal = function(Cuarto,JugId ){
-        AnyadirFaltaPerosnal(JugId,Cuarto);
+       
 
          for (var i = 0; i < PlayerV.length; i++) {
         
             if (PlayerV[i].id == parseInt(JugId)) {
+               console.log("ee");
               if ( PlayerV[i].faltas<5){
                 PlayerV[i].faltas=PlayerV[i].faltas + 1;
                 
@@ -101,7 +87,7 @@ angular.module('starter.services', [])
 
     this.LimpiarJugadores=function(DatosRockeros){
 
-      PlayerV=PlayerV=DatosPorDefectoCHE.clear(DatosRockeros);  
+      PlayerV=DatosPorDefectoCHE.clear(DatosRockeros);  
       vPuntos=0;
       GuardarDatosFich(true); 
 
@@ -120,8 +106,8 @@ angular.module('starter.services', [])
     this.Cambio= function(Origen,Fin) {
         //Para que no haga los cambios iniciales (poner el 5 titular)
         var TienePuntos_o_Faltas=false;
-        var cadena = String(Origen) + " " + String(Fin);
-        console.log(cadena);
+        //var cadena = String(Origen) + " " + String(Fin);
+        //console.log(cadena);
         orden=13;
         indice1=20;
         indice2=20;
@@ -189,7 +175,7 @@ angular.module('starter.services', [])
    
  
 
-    PlayerV={};
+    var PlayerV={};
     PlayerV=DatosPorDefectoVisit.clear();
 
 
@@ -270,30 +256,32 @@ angular.module('starter.services', [])
     }
     this.faltaPersonal = function(Cuarto,JugId ){
         AnyadirFaltaPerosnal(JugId,Cuarto);
-    } 
-
-    this.LimpiarJugadores=function(){
-      PlayerV=DatosPorDefectoVisit.clear();
-      vPuntos=0;
-      GuardarDatosFich();        
     }
 
-    this.GuardarDatosFich=function(){
-            
+
+    this.GuardarDatosFichV=function(Ok){
+        
         var cadena = JSON.stringify(PlayerV);
-        console.log(cadena);
+        //console.log(cadena);
         localStorage.setItem("JugadoresEquipoVisitante", cadena);    
         localStorage.setItem("NombreEquipoVisitante",NombreEquipo);
-
         F_Historico.guardar();
         Periodo.GuardarDatosFich();
     }
 
+
+    this.LimpiarJugadoresV=function(){
+      PlayerV=DatosPorDefectoVisit.clear();
+      vPuntos=0;
+      this.GuardarDatosFichV(1);        
+    }
+
+    
+
     this.Cambio= function(Origen,Fin) {
         //Para que no haga los cambios iniciales (poner el 5 titular)
         var TienePuntos_o_Faltas=false;
-        var cadena = String(Origen) + " " + String(Fin);
-        console.log(cadena);
+        //var cadena = String(Origen) + " " + String(Fin);
         orden=13;
         indice1=20;
         indice2=20;
@@ -593,9 +581,7 @@ angular.module('starter.services', [])
           //console.log(obj);
     },
     clear: function() {
-      console.log('A' + String(HistAcciones.length));
       HistAcciones=[];
-      console.log('D' + String(HistAcciones.length));
       return HistAcciones;
     }
   };
@@ -613,8 +599,10 @@ angular.module('starter.services', [])
   
  var jugs = [];
 
-  function LimpiarJugadores(JugId,Cuarto) {
+  function LimpiarJugadores() {
+
         jugs=[];
+
         for (var i = 0; i < 12; i++) {
           var imagen="img/Visit" + String(i+4) + ".png";
           var obj = {};
@@ -627,6 +615,7 @@ angular.module('starter.services', [])
           obj["puntos"] = 0;
           jugs.push(obj);      
       }
+
   }
 
   return {
@@ -779,7 +768,7 @@ angular.module('starter.services', [])
           jugs[i].nombre=nombre;
           jugs[i].faltas=0;
           jugs[i].puntos=0;
-
+          //console.log(nombre+ " " + jugs[i].faltas);  
          }       
     }
   

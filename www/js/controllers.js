@@ -215,7 +215,6 @@ angular.module('starter.controllers', [])
 
 .controller('LocalCtrl', function($scope, $stateParams,EquipoLocal) {
      $scope.EquipoLocal=EquipoLocal.getPlayers();
-     console.log(JSON.stringify($scope.EquipoLocal));
      $scope.Nombre=EquipoLocal.getNombre();
      $scope.width = '80px';
      $scope.bgColor = 'grey';
@@ -270,14 +269,14 @@ angular.module('starter.controllers', [])
 
 
       $scope.guardarDatos=function(){
-          EquipoVisitante.GuardarDatosFich();
+          EquipoVisitante.GuardarDatosFichV();
       }
 
 })
 
 .controller('seleccionCtrl', function($scope,$state, $stateParams,EquipoVisitante,EquipoLocal) {
    var EsElEquipoLocal ;
-   var ArrayJug=[];
+
    var CuantosPuntos=0;
    var EsFaltaPersonal =false;
 
@@ -287,17 +286,17 @@ angular.module('starter.controllers', [])
    if (!EsElEquipoLocal)
    {
     NombreE=EquipoVisitante.getNombre(); 
-    ArrayJug=EquipoVisitante.getPlayers();
+    $scope.EquipoPlayers=EquipoVisitante.getPlayers();
 
    }
    else
    {
 
     NombreE=EquipoLocal.getNombre();
-    ArrayJug=EquipoLocal.getPlayers();
+    $scope.EquipoPlayers=EquipoLocal.getPlayers();
 
    }
-   $scope.EquipoPlayers=ArrayJug;
+   
    $scope.Nombre=NombreE;
    $scope.EsUnaFaltaPersonal=EsFaltaPersonal;
    CuantosPuntos=parseInt($stateParams.EquipoPuntos.substr(4));
@@ -323,9 +322,12 @@ angular.module('starter.controllers', [])
               EquipoVisitante.sumPuntos(CuantosPuntos,idJugador);
           };
       } else {
+           console.log("IdJugador"+ idJugador);
           if (EsElEquipoLocal)
           {
+            
               EquipoLocal.faltaPersonal(1,idJugador)
+              
           }
           else
           {
@@ -339,7 +341,7 @@ angular.module('starter.controllers', [])
       }
       else
       {
-          EquipoVisitante.GuardarDatosFich();
+          EquipoVisitante.GuardarDatosFichV();
       }
       
       $state.go('tab.dash');
@@ -371,12 +373,12 @@ angular.module('starter.controllers', [])
    };
 
   VaciarDatos2=function(){
-      console.log('eeee');
+      
        localStorage.clear();
        Periodo.Reiniciar();
        F_Historico.clear();
        EquipoLocal.LimpiarJugadores($scope.checkboxModel.Rockeros);
-       EquipoVisitante.LimpiarJugadores();
+       EquipoVisitante.LimpiarJugadoresV();
   }
 
 
