@@ -218,11 +218,19 @@ angular.module('starter.controllers', [])
 
 
 .controller('LocalCtrl', function($scope, $stateParams,EquipoLocal,F_Historico) {
+
+
+     $scope.$on('$ionicView.enter',function(e){
+     
+       EquipoLocal.DatosPorCuarto();
+       $scope.PuntosEquipo=EquipoLocal.getPuntosPorCuarto();
+       $scope.FaltasEquipo=EquipoLocal.getFaltasPorCuarto();
+        
+
+     });
+
      $scope.EquipoLocal=EquipoLocal.getPlayers();
      $scope.Nombre=EquipoLocal.getNombre();
-     EquipoLocal.DatosPorCuarto();
-     $scope.PuntosEquipo=EquipoLocal.getPuntosPorCuarto();
-     $scope.FaltasEquipo=EquipoLocal.getFaltasPorCuarto;
      
      
      $scope.width = '80px';
@@ -256,6 +264,14 @@ angular.module('starter.controllers', [])
 
 .controller('VisitanteCtrl', function($scope, $stateParams,EquipoVisitante) {
 
+    $scope.$on('$ionicView.enter',function(e){
+     
+       EquipoVisitante.DatosPorCuarto();
+       $scope.PuntosEquipo=EquipoVisitante.getPuntosPorCuarto();
+       $scope.FaltasEquipo=EquipoVisitante.getFaltasPorCuarto();
+        
+
+     });
      
      $scope.EquipoVisitante=EquipoVisitante.getPlayers();
      $scope.Nombre=EquipoVisitante.getNombre();
@@ -364,7 +380,7 @@ angular.module('starter.controllers', [])
 
 
 .controller('AccountCtrl', function($scope,EquipoVisitante,EquipoLocal,Periodo,F_Historico, $ionicPopup) {
-   $scope.checkboxModel = {
+  $scope.checkboxModel = {
        Rockeros : true
    }
 
@@ -389,9 +405,17 @@ angular.module('starter.controllers', [])
        localStorage.clear();
        Periodo.Reiniciar();
        F_Historico.clear();
-       EquipoLocal.LimpiarJugadores($scope.checkboxModel.Rockeros);
        EquipoVisitante.LimpiarJugadoresV();
+       EquipoLocal.LimpiarJugadores($scope.checkboxModel.Rockeros);
+       
   }
+
+
+  $scope.Cerrar = function() {
+
+    ionic.Platform.exitApp();
+    
+  };
 
 
 });

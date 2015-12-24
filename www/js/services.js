@@ -64,6 +64,7 @@ angular.module('starter.services', [])
     }
 
     this.getFaltasPorCuarto = function(){
+        console.log("get" + faltasPorCuarto);
         return faltasPorCuarto;
     }
 
@@ -80,7 +81,7 @@ angular.module('starter.services', [])
          for (var i = 0; i < PlayerV.length; i++) {
         
             if (PlayerV[i].id == parseInt(JugId)) {
-               console.log("ee");
+              
               if ( PlayerV[i].faltas<5){
                 PlayerV[i].faltas=PlayerV[i].faltas + 1;
                 
@@ -122,16 +123,19 @@ angular.module('starter.services', [])
             
         var acciones=F_Historico.all();
         for (var i = 0; i < acciones.length; i++) {
+
           if (acciones[i].Periodo> Ultimocuarto) Ultimocuarto=acciones[i].Periodo;
-          if (acciones[i].Equipo == "L") {                
+          if (acciones[i].Equipo == "L") { 
+
               quecuarto=acciones[i].Periodo;
               if (quecuarto>4) quecuarto=5;
-              if (acciones[i].Accion == "P") ptosCuarto[i]=ptosCuarto[i] + acciones[i].puntos;
-              if (acciones[i].Accion == "F") faltasCuarto[i]=ptosCuarto[i] + acciones[i].puntos;
+              quecuarto=quecuarto-1;
+              if (acciones[i].Accion == "P") ptosCuarto[quecuarto]=ptosCuarto[quecuarto] + acciones[i].puntos;
+              if (acciones[i].Accion == "F") faltasCuarto[quecuarto]=faltasCuarto[quecuarto] + 1;
             }
         }
         
- 
+
         quecuarto=3;
         if  (Ultimocuarto>4)  quecuarto=4;
         faltasPorCuarto="";
@@ -219,7 +223,9 @@ angular.module('starter.services', [])
 .service('EquipoVisitante',function(DatosPorDefectoVisit,F_Historico,Periodo){
     
     var vPuntos=0;
-   
+    var puntosPorCuarto; 
+    var faltasPorCuarto; 
+
  
 
     var PlayerV={};
@@ -305,8 +311,16 @@ angular.module('starter.services', [])
         AnyadirFaltaPerosnal(JugId,Cuarto);
     }
 
+    this.getPuntosPorCuarto = function(){
+        return puntosPorCuarto;
+    }
 
-    this.GuardarDatosFichV=function(Ok){
+    this.getFaltasPorCuarto = function(){
+        console.log("get" + faltasPorCuarto);
+        return faltasPorCuarto;
+    }
+
+    this.GuardarDatosFichV=function(){
         
         var cadena = JSON.stringify(PlayerV);
         //console.log(cadena);
@@ -320,10 +334,45 @@ angular.module('starter.services', [])
     this.LimpiarJugadoresV=function(){
       PlayerV=DatosPorDefectoVisit.clear();
       vPuntos=0;
-      this.GuardarDatosFichV(1);        
+      var cadena = JSON.stringify(PlayerV);
+      localStorage.setItem("JugadoresEquipoVisitante", cadena);         
     }
 
-    
+     this.DatosPorCuarto=function(){
+       var ptosCuarto =[0,0,0,0,0];
+       var faltasCuarto =[0,0,0,0,0];
+       var Ultimocuarto=0;
+       var quecuarto;
+            
+        var acciones=F_Historico.all();
+        for (var i = 0; i < acciones.length; i++) {
+
+          if (acciones[i].Periodo> Ultimocuarto) Ultimocuarto=acciones[i].Periodo;
+          if (acciones[i].Equipo == "V") { 
+
+              quecuarto=acciones[i].Periodo;
+              if (quecuarto>4) quecuarto=5;
+              quecuarto=quecuarto-1;
+              if (acciones[i].Accion == "P") ptosCuarto[quecuarto]=ptosCuarto[quecuarto] + acciones[i].puntos;
+              if (acciones[i].Accion == "F") faltasCuarto[quecuarto]=faltasCuarto[quecuarto] + 1;
+            }
+        }
+        
+
+        quecuarto=3;
+        if  (Ultimocuarto>4)  quecuarto=4;
+        faltasPorCuarto="";
+        puntosPorCuarto="";
+        for (var i = 0; i <= quecuarto; i++) {
+          faltasPorCuarto=faltasPorCuarto + String(faltasCuarto[i]);              
+          puntosPorCuarto=puntosPorCuarto + String(ptosCuarto[i]);
+          if (i < quecuarto){
+              faltasPorCuarto=faltasPorCuarto + " + ";              
+              puntosPorCuarto=puntosPorCuarto + " + ";
+          }
+        }
+        
+      }
 
     this.Cambio= function(Origen,Fin) {
         //Para que no haga los cambios iniciales (poner el 5 titular)

@@ -6,11 +6,21 @@
     <div class="item item-divider"></div>
     <div class="item item-body">
 
-        <ion-checkbox ng-model="checkboxModel.Rockeros">Locales ROCKEROS</ion-checkbox> 
-	       <button class="button button-block button-positive" ng-click="VaciarDatos()">
-	       Reiniciar partido
+         <button class="button button-block button-positive" ng-click="Cerrar()">
+	       Cerrar App
 	       </button>
-	   </div>
+          <div class="row">
+            <div class="col col-67">
+                <ion-checkbox ng-model="checkboxModel.Rockeros">Locales ROCKEROS</ion-checkbox> 
+            </div>
+            <div class="col">
+              <button class="button button-block button-positive" ng-click="VaciarDatos()">
+              Reiniciar
+              </button>
+            </div>
+	       </div>
+    </div>
+     
 
 
 
