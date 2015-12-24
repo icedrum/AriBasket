@@ -37,8 +37,8 @@
          <div class="col col-33" align="left">
             <label class="item  item-select">
                <h5>Periodo</h5>
-              <select ng-model="filtroPeriodo" ng-change="selectUpdatedPer(filtroPeriodo)">
-                <option selected="">Todos</option>
+              <select ng-model="Data.filtroPeriodo" ng-change="selectUpdatedPer(Data.filtroPeriodo)">
+                <option>Todos</option>
                 <option>Primero</option>
                 <option>Segundo</option>
                 <option>Tercero</option>
@@ -50,8 +50,8 @@
           <div class="col col-33">
               <label class="item item-select">
                 <h5>Equipo</h5>
-                <select  ng-model="filtroEquipo" ng-change="selectUpdatedEqu(filtroEquipo)">
-                  <option selected>Ambos</option>
+                <select  ng-model="Data.filtroEquipo" ng-change="selectUpdatedEqu(Data.filtroEquipo)">
+                  <option>Ambos</option>
                   <option>Local</option>
                   <option>Visitante</option>
                 </select>
@@ -60,8 +60,8 @@
           <div class="col col-33">
               <label class="item item-select">
                 <h5>Acción</h5>
-                <select  ng-model="filtroAccion" ng-change="selectUpdatedAcc(filtroAccion)">
-                  <option selected>Todas</option>
+                <select  ng-model="Data.filtroAccion" ng-change="selectUpdatedAcc(Data.filtroAccion)">
+                  <option>Todas</option>
                   <option>Puntos</option>
                   <option>Faltas</option>
                   <option>Cambios</option>

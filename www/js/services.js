@@ -6,7 +6,8 @@ angular.module('starter.services', [])
 .service('EquipoLocal',function(DatosPorDefectoCHE,F_Historico,Periodo){
   var NombreEquipo="Rockeros CHE";
   var vPuntos=0;
-
+  var puntosPorCuarto; 
+  var faltasPorCuarto; 
 
   var PlayerV=[];
   PlayerV=DatosPorDefectoCHE.all();
@@ -58,6 +59,15 @@ angular.module('starter.services', [])
         return vPuntos;
     }
 
+    this.getPuntosPorCuarto = function(){
+        return puntosPorCuarto;
+    }
+
+    this.getFaltasPorCuarto = function(){
+        return faltasPorCuarto;
+    }
+
+
     this.sumPuntos = function(Cuantos,JugId ){
         SumaLosPuntos(JugId,Cuantos);
         vPuntos = vPuntos + Cuantos;
@@ -102,6 +112,43 @@ angular.module('starter.services', [])
           Periodo.GuardarDatosFich();
         }
     }
+
+
+    this.DatosPorCuarto=function(){
+       var ptosCuarto =[0,0,0,0,0];
+       var faltasCuarto =[0,0,0,0,0];
+       var Ultimocuarto=0;
+       var quecuarto;
+            
+        var acciones=F_Historico.all();
+        for (var i = 0; i < acciones.length; i++) {
+          if (acciones[i].Periodo> Ultimocuarto) Ultimocuarto=acciones[i].Periodo;
+          if (acciones[i].Equipo == "L") {                
+              quecuarto=acciones[i].Periodo;
+              if (quecuarto>4) quecuarto=5;
+              if (acciones[i].Accion == "P") ptosCuarto[i]=ptosCuarto[i] + acciones[i].puntos;
+              if (acciones[i].Accion == "F") faltasCuarto[i]=ptosCuarto[i] + acciones[i].puntos;
+            }
+        }
+        
+ 
+        quecuarto=3;
+        if  (Ultimocuarto>4)  quecuarto=4;
+        faltasPorCuarto="";
+        puntosPorCuarto="";
+        for (var i = 0; i <= quecuarto; i++) {
+          faltasPorCuarto=faltasPorCuarto + String(faltasCuarto[i]);              
+          puntosPorCuarto=puntosPorCuarto + String(ptosCuarto[i]);
+          if (i < quecuarto){
+              faltasPorCuarto=faltasPorCuarto + " + ";              
+              puntosPorCuarto=puntosPorCuarto + " + ";
+          }
+        }
+        
+      }
+
+
+
 
     this.Cambio= function(Origen,Fin) {
         //Para que no haga los cambios iniciales (poner el 5 titular)
@@ -534,23 +581,32 @@ angular.module('starter.services', [])
     },
     fitro: function(vPeriodo,vEquipo,vAccion) {
 
-        if (vPeriodo==0 && vEquipo=="A" && vAccion=="T") return HistAcciones;
-        console.log("Fitrol: " + String(vPeriodo) +  vEquipo + vAccion);
+        var vfiltroPer=0;
+        if (vPeriodo == "Primero") vfiltroPer=1;
+        if (vPeriodo == "Segundo") vfiltroPer=2;
+        if (vPeriodo == "Tercero") vfiltroPer=3;
+        if (vPeriodo == "Cuarto") vfiltroPer=4;
+
+
+
+
+        if (vfiltroPer==0 && vEquipo=="Ambos" && vAccion=="Todas") return HistAcciones;
+        console.log("Fitro: " + String(vPeriodo) +  vEquipo + vAccion);
         var SeDevuelve;
         var ArrayDevuelto=[];
         for (var j = 0;j < HistAcciones.length; j++) {
           SeDevuelve=true;
 
-          if (vPeriodo>0) {
-            if (HistAcciones[j].Periodo!=vPeriodo)  SeDevuelve=false;
+          if (vfiltroPer>0) {
+            if (HistAcciones[j].Periodo!=vfiltroPer)  SeDevuelve=false;
           }
 
-          if (vEquipo != "A") {
-            if (HistAcciones[j].Equipo !=vEquipo)  SeDevuelve=false;
+          if (vEquipo != "Ambos") {
+            if (HistAcciones[j].Equipo !=vEquipo.substring(0,1))  SeDevuelve=false;
           }
 
-          if (vAccion != "T") {
-            if (HistAcciones[j].Accion!=vAccion)  SeDevuelve=false;
+          if (vAccion != "Todas") {
+            if (HistAcciones[j].Accion!=vAccion.substring(0,1))  SeDevuelve=false;
           }
 
           if (SeDevuelve) ArrayDevuelto.push(HistAcciones[j]);          

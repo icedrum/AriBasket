@@ -133,35 +133,39 @@ angular.module('starter.controllers', [])
           return  $scope.EquipoL[KJugador].nombre;;
         } 
     }
-    $scope.filtroPeriodo=0;
-    $scope.filtroEquipo="A";
-    $scope.filtroAccion="T";
+
+    $scope.Data = {
+      filtroPeriodo:"Todos",
+      filtroEquipo:"Ambos",
+      filtroAccion:"Todas",
+    }
+    
     $scope.selectUpdatedPer = function(filtroPeriodo) {
-        var vfiltro=0;
-        if (filtroPeriodo == "Primero") vfiltro=1;
-        if (filtroPeriodo == "Segundo") vfiltro=2;
-        if (filtroPeriodo == "Tercero") vfiltro=3;
-        if (filtroPeriodo == "Cuarto") vfiltro=4;
-        $scope.filtroPeriodo=vfiltro;
+        //var vfiltro=0;
+        // if (filtroPeriodo == "Primero") vfiltro=1;
+        // if (filtroPeriodo == "Segundo") vfiltro=2;
+        // if (filtroPeriodo == "Tercero") vfiltro=3;
+        // if (filtroPeriodo == "Cuarto") vfiltro=4;
+        $scope.Data.filtroPeriodo=filtroPeriodo;
         ValoreConFiltro();
     }
     $scope.selectUpdatedEqu = function(filtroEquipo) {
-        $scope.filtroEquipo=filtroEquipo.substr(0,1);
+        $scope.Data.filtroEquipo=filtroEquipo;
         ValoreConFiltro();
     }
     $scope.selectUpdatedAcc = function(filtroAccion) {
-        $scope.filtroAccion=filtroAccion.substr(0,1);
+        $scope.Data.filtroAccion=filtroAccion;
         ValoreConFiltro();
     }
 
 
     ValoreConFiltro=function(){
-      // console.log("Filtro cambiado: ");      
-      // console.log("Periodo: " + $scope.filtroPeriodo);
-      // console.log("Equipo: " + $scope.filtroEquipo);
-      // console.log("Accion: " + $scope.filtroAccion);
+       console.log("Filtro cambiado: ");      
+       console.log("Periodo: " + $scope.Data.filtroPeriodo);
+       console.log("Equipo: " + $scope.Data.filtroEquipo);
+       console.log("Accion: " + $scope.Data.filtroAccion);
 
-      $scope.ElHistorico=F_Historico.fitro($scope.filtroPeriodo,$scope.filtroEquipo, $scope.filtroAccion);    
+       $scope.ElHistorico=F_Historico.fitro($scope.Data.filtroPeriodo,$scope.Data.filtroEquipo, $scope.Data.filtroAccion);    
       
 
     } 
@@ -213,9 +217,14 @@ angular.module('starter.controllers', [])
 })
 
 
-.controller('LocalCtrl', function($scope, $stateParams,EquipoLocal) {
+.controller('LocalCtrl', function($scope, $stateParams,EquipoLocal,F_Historico) {
      $scope.EquipoLocal=EquipoLocal.getPlayers();
      $scope.Nombre=EquipoLocal.getNombre();
+     EquipoLocal.DatosPorCuarto();
+     $scope.PuntosEquipo=EquipoLocal.getPuntosPorCuarto();
+     $scope.FaltasEquipo=EquipoLocal.getFaltasPorCuarto;
+     
+     
      $scope.width = '80px';
      $scope.bgColor = 'grey';
     
@@ -240,6 +249,9 @@ angular.module('starter.controllers', [])
       $scope.guardarDatos=function(){
           EquipoLocal.GuardarDatosFich();
       }
+
+
+
 })
 
 .controller('VisitanteCtrl', function($scope, $stateParams,EquipoVisitante) {
