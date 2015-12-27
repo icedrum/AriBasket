@@ -18,7 +18,7 @@
                  
   
                   
-                    <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="jug in EquipoPlayers  | orderBy:'orden'" type="item-text-wrap"  >
+                    <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="jug in EquipoPlayers | filter: { visible: true } | orderBy:'orden'" type="item-text-wrap"  >
 
 
                     <img ng-src="{{jug.face}}" ng-click="RealizarAccion({{jug.id}})">

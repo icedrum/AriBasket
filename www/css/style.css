@@ -9,6 +9,11 @@
 }
 
 
-.no-padding {
-    padding: 0px;
+.header .col {
+  background-color:lightgrey;
 }
+
+
+.sinborde {
+    border: 0px
+} 

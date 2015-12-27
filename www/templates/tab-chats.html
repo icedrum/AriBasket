@@ -5,31 +5,33 @@
 
 
       
-       <!-- <div class="bar bar-header bar-royal"  ng-show="Opcion != 'T'">    -->
-      <a class="item item-thumbnail-left" ng-show="Opcion != 'T'" href="#">
-          
-        <table>
-          <tr>
-            <img ng-src="{{jugador.face}}" style="width: 64px; height: 64px">
-          </tr>
-          <tr>
-            <td>
-              <button class="button button-icon icon ion-document-text"
-              ng-click="guardarDatos()"></button>
-            </td>
-            <td>
-              <p>
-              <label class="item item-input" width=50px>
-                <input type="text" placeholder="{{jugador.nombre}}">
-              </label>
+       <!-- <div class="bar bar-header bar-royal"  ng-show="Opcion != 'T'">
+      <a class="item item-thumbnail-left" ng-show="Opcion != 'T'" href="#">     -->
+       
+      <div ng-show="Opcion != 'T'">   
+        <div class="row" >         
+          <div class="col col-33"  align="left">
+              <a  ng-href="#/tab/dash"> <img ng-src="{{jugador.face}}" style="width: 96px; height: 96px"></a>
+         </div>
+         <div  class="col col-67" align="left">
+            <div class="row" >
               
-               </p>
-                <p>Puntos:    <b>{{jugador.puntos}}</b> &nbsp;&nbsp;&nbsp;Faltas:  <b>{{jugador.faltas}}</b></p>
-            </td>
-          </tr>
-        </table>
+                  <label class="item item-input sinborde" width=50px>
+                      <input type="text" placeholder="{{jugador.nombre}}">
+                  </label>
+              
+            </div>                 
+            <div  class="row">
+              <ion-checkbox class="sinborde"  ng-click="ChkFuncion()" ng-model="EsVisible">Visible</ion-checkbox> 
+            </div>
+            <div  class="row">
+                 <p>Puntos:    <b>{{jugador.puntos}}</b> &nbsp;&nbsp;&nbsp;Faltas:  <b>{{jugador.faltas}}</b></p>
+            </div>
+          </div>
+        </div>  
+      </div>
+     
 
-      </a>
        
       <a class="item" ng-show="Opcion == 'T'" >
                
@@ -72,11 +74,13 @@
       </a>         
                 
 
-        <div class="row" >
+        <div class="row header" >
                 <div class="col col-20" align="center">Minu.</div>               
                 <div class="col col-10" align="center">Equ.</div>
                 <div class="col col-50" align="left" ng-show="Opcion=='T'">Nombre</div>
-                <div class="col col-20" align="left">Accion</div>                
+                <div class="col col-20" align="left" ng-show="Opcion=='T'">Accion</div>
+                <div class="col col-67" align="left" ng-show="Opcion!='T'">Accion</div>
+                               
         </div>
 
 

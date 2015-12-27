@@ -75,6 +75,7 @@ angular.module('starter.controllers', [])
       $scope.VisitanteMas4=false;
       $scope.EnMarchaReloj=false;
       $scope.Data.Minuto=Periodo.Tiempo100();
+
   };
 
 
@@ -108,14 +109,15 @@ angular.module('starter.controllers', [])
        
         if ($scope.Opcion == "V") {          
             $scope.jugador= $scope.EquipoV[$scope.IdJugador];
+
           } else {
     
             $scope.jugador= $scope.EquipoL[$scope.IdJugador];  
           } 
+          $scope.EsVisible=$scope.jugador.visible;
+     
 
-      });
-
-      if ($scope.Opcion == "T") {
+        if ($scope.Opcion == "T") {
           $scope.ElHistorico=F_Historico.all();
         } else
         {
@@ -124,6 +126,21 @@ angular.module('starter.controllers', [])
           console.log("Equipo" + vEq);
           $scope.ElHistorico=F_Historico.allplayerN(vJug,vEq);    
         };
+
+        $stateParams.OpcionEquipoJugador ="T1";
+      });
+    
+    $scope.ChkFuncion = function() {
+        console.log("asdadasdasd");
+        if ($scope.Opcion == "T") {
+          
+        } else
+          if ($scope.Opcion == "V") 
+            $scope.EquipoV[$scope.IdJugador].visible=false;
+          else
+            $scope.EquipoL[$scope.IdJugador].visible=false;
+    }
+
 
     $scope.NombreJugador=function(LocalVisitante,KJugador){
         
@@ -140,6 +157,9 @@ angular.module('starter.controllers', [])
       filtroAccion:"Todas",
     }
     
+
+
+
     $scope.selectUpdatedPer = function(filtroPeriodo) {
         //var vfiltro=0;
         // if (filtroPeriodo == "Primero") vfiltro=1;
@@ -230,23 +250,24 @@ angular.module('starter.controllers', [])
      });
 
      $scope.EquipoLocal=EquipoLocal.getPlayers();
-     $scope.Nombre=EquipoLocal.getNombre();
+     //$scope.Nombre=
      
      
      $scope.width = '80px';
      $scope.bgColor = 'grey';
     
-     $scope.value=true;
+     $scope.value=false;
      $scope.data = {
-          showDelete: $scope.value,
-          showReorder: !$scope.value
+          showDelete: !$scope.value,
+          showReorder: $scope.value,
+          Nombre: EquipoLocal.getNombre()
         };
         
 
       $scope.toggleChange = function(){
         $scope.value=!$scope.value;
-        $scope.data.showDelete=$scope.value;
-        $scope.data.showReorder=!$scope.value;
+        $scope.data.showDelete=!$scope.value;
+        $scope.data.showReorder=$scope.value;
       }
 
       $scope.moveItem = function(item, fromIndex, toIndex) {  
@@ -255,6 +276,7 @@ angular.module('starter.controllers', [])
 
 
       $scope.guardarDatos=function(){
+          EquipoLocal.setNombre($scope.data.Nombre);
           EquipoLocal.GuardarDatosFich();
       }
 
@@ -269,26 +291,27 @@ angular.module('starter.controllers', [])
        EquipoVisitante.DatosPorCuarto();
        $scope.PuntosEquipo=EquipoVisitante.getPuntosPorCuarto();
        $scope.FaltasEquipo=EquipoVisitante.getFaltasPorCuarto();
-        
+       $scope.EquipoVisitante=EquipoVisitante.getPlayers();  
 
      });
      
-     $scope.EquipoVisitante=EquipoVisitante.getPlayers();
-     $scope.Nombre=EquipoVisitante.getNombre();
+     
+     //$scope.Nombre=EquipoVisitante.getNombre();
      $scope.width = '80px';
      $scope.bgColor = 'grey';
     
-     $scope.value=true;
+     $scope.value=false;
      $scope.data = {
-          showDelete: $scope.value,
-          showReorder: !$scope.value
+          showDelete: !$scope.value,
+          showReorder: $scope.value,
+          Nombre: EquipoVisitante.getNombre()
         };
         
 
       $scope.toggleChange = function(){
         $scope.value=!$scope.value;
-        $scope.data.showDelete=$scope.value;
-        $scope.data.showReorder=!$scope.value;
+        $scope.data.showDelete=!$scope.value;
+        $scope.data.showReorder=$scope.value;
       }
 
       $scope.moveItem = function(item, fromIndex, toIndex) {  
@@ -297,6 +320,7 @@ angular.module('starter.controllers', [])
 
 
       $scope.guardarDatos=function(){
+          EquipoVisitante.setNombre($scope.data.Nombre);
           EquipoVisitante.GuardarDatosFichV();
       }
 
@@ -402,7 +426,11 @@ angular.module('starter.controllers', [])
 
   VaciarDatos2=function(){
       
-       localStorage.clear();
+       //Esto deberia estar dentro de cada factory
+       localStorage.removeItem("JugadoresEquipoLocal");  
+       localStorage.removeItem("JugadoresEquipoVisitante");  
+       localStorage.removeItem("Periodo");  
+       localStorage.removeItem("historico");  
        Periodo.Reiniciar();
        F_Historico.clear();
        EquipoVisitante.LimpiarJugadoresV();

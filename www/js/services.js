@@ -51,7 +51,7 @@ angular.module('starter.services', [])
     }
 
     this.setNombre = function(newNombre){
-        NombreEquipo = newData;
+        NombreEquipo = newNombre;
     }
 
 
@@ -97,7 +97,7 @@ angular.module('starter.services', [])
     } 
 
     this.LimpiarJugadores=function(DatosRockeros){
-
+      if (DatosRockeros) NombreEquipo="Rockeros CHE"
       PlayerV=DatosPorDefectoCHE.clear(DatosRockeros);  
       vPuntos=0;
       GuardarDatosFich(true); 
@@ -107,7 +107,7 @@ angular.module('starter.services', [])
     this.GuardarDatosFich=function(DesdeDentro){
         var cadena = JSON.stringify(PlayerV);
         localStorage.setItem("JugadoresEquipoLocal", cadena);    
-        localStorage.setItem("NombreEquipoLocal","ooo");
+        localStorage.setItem("NombreEquipoLocal",NombreEquipo);
         if (!DesdeDentro){ 
           F_Historico.guardar();
           Periodo.GuardarDatosFich();
@@ -295,7 +295,7 @@ angular.module('starter.services', [])
     }
 
     this.setNombre = function(newNombre){
-        NombreEquipo = newData;
+        NombreEquipo = newNombre;
     }
 
 
@@ -316,7 +316,6 @@ angular.module('starter.services', [])
     }
 
     this.getFaltasPorCuarto = function(){
-        console.log("get" + faltasPorCuarto);
         return faltasPorCuarto;
     }
 
@@ -491,6 +490,7 @@ angular.module('starter.services', [])
 
 
     this.PonerNombreCuarto = function(){
+      console.log(QueCuarto);
       var txtCuarto;
       switch(QueCuarto) {
         case 1:
@@ -507,7 +507,7 @@ angular.module('starter.services', [])
             txtCuarto="Cuarto"
             break;
         default:
-             txtCuarto="Prorroga " + string(txtCuarto)
+             txtCuarto="Prorroga " + String(QueCuarto-4) + "(" + String(QueCuarto) + ")"
        };
        if (QueCuarto<5) 
             txtCuarto=txtCuarto + " periodo";
@@ -525,7 +525,10 @@ angular.module('starter.services', [])
       ResulSeg=MinCuarto * 60;
 
       if (TiempoActualEnSegundos<=0){
-          return ("10 : 00");
+          if (QueCuarto>4) 
+            return ("05 : 00");
+          else  
+            return ("10 : 00");
       }
 
       if (TiempoActualEnSegundos>=ResulSeg){
@@ -706,19 +709,31 @@ angular.module('starter.services', [])
 
   function LimpiarJugadores() {
 
-        jugs=[];
 
-        for (var i = 0; i < 12; i++) {
-          var imagen="img/Visit" + String(i+4) + ".png";
-          var obj = {};
-          obj["id"] = i;
-          obj["dorsal"] = i+4;
-          obj["orden"] = i;
-          obj["nombre"] = "Jugador dorsal " + String( i +4);
-          obj["faltas"] = 0;
-          obj["face"] =imagen ;
-          obj["puntos"] = 0;
-          jugs.push(obj);      
+        if (jugs.length==0){
+        
+            for (var i = 0; i < 12; i++) {
+              var imagen="img/Visit" + String(i+4) + ".png";
+              var obj = {};
+              obj["id"] = i;
+              obj["dorsal"] = i+4;
+              obj["orden"] = i;
+              obj["nombre"] = "Jugador dorsal " + String( i +4);
+              obj["faltas"] = 0;
+              obj["face"] =imagen ;
+              obj["puntos"] = 0;
+              obj["visible"] = true;
+              
+              jugs.push(obj);
+            }
+          }else{
+            for (var i = 0; i < 12; i++) {              
+
+              jugs[i].orden = i;
+              jugs[i].faltas = 0;
+              jugs[i].puntos = 0;
+              jugs[i].visible = true;
+          }      
       }
 
   }
@@ -754,7 +769,8 @@ angular.module('starter.services', [])
     nombre: 'Yoyo Barri',
     faltas: 0,
     face: 'img/local4.png', 
-    puntos: 0
+    puntos: 0,
+    visible: true
   }, {
     id: 1,
     dorsal: 5,
@@ -762,7 +778,8 @@ angular.module('starter.services', [])
     nombre: 'Pepedona',
     faltas: 0,
     face: 'img/local5.png',
-    puntos: 0
+    puntos: 0,
+    visible: true
   }, {
     id: 2,
     dorsal: 6,
@@ -770,7 +787,8 @@ angular.module('starter.services', [])
     nombre: 'Ximo JaggerMaster',
     faltas: 0,
     face: 'img/local6.png',
-    puntos: 0
+    puntos: 0,
+    visible: true
   }, {
     id: 3,
     dorsal: 7,
@@ -778,7 +796,8 @@ angular.module('starter.services', [])
     nombre: 'The mexican Cati',
     faltas: 0,
     face: 'img/local7.png',
-    puntos: 0
+    puntos: 0,
+    visible: true
   }, {
     id: 4,
     dorsal: 8,
@@ -786,7 +805,8 @@ angular.module('starter.services', [])
     nombre: 'Mr Bocina',
     faltas: 0,
     face: 'img/local8.png',
-    puntos: 0
+    puntos: 0,
+    visible: true
   }, {
     id: 5,
     dorsal: 9,
@@ -794,7 +814,8 @@ angular.module('starter.services', [])
     nombre: 'Lobezno',
     faltas: 0,
     face: 'img/local9.png',
-    puntos: 0
+    puntos: 0,
+    visible: true
   }, {
     id: 6,
     dorsal: 10,
@@ -802,7 +823,8 @@ angular.module('starter.services', [])
     nombre: 'Pistol Coque',
     faltas: 0,
     face: 'img/local10.png',
-    puntos: 0
+    puntos: 0,
+    visible: true
   }, {
     id: 7,
     dorsal: 11,
@@ -810,7 +832,8 @@ angular.module('starter.services', [])
     nombre: 'Moñaspower',
     faltas: 0,
     face: 'img/local11.png',
-    puntos: 0
+    puntos: 0,
+    visible: true
   }, {
     id: 8,
     dorsal: 12,
@@ -818,7 +841,8 @@ angular.module('starter.services', [])
     nombre: 'LaserMan',
     faltas: 0,
     face: 'img/local12.png',
-    puntos: 0
+    puntos: 0,
+    visible: true
   }, {
     id: 9,
     dorsal: 13,
@@ -826,7 +850,8 @@ angular.module('starter.services', [])
     nombre: 'Cirujano',
     faltas: 0,
     face: 'img/local13.png',
-    puntos: 0
+    puntos: 0,
+    visible: true
   }, {
     id: 10,
     dorsal: 15,
@@ -834,7 +859,8 @@ angular.module('starter.services', [])
     nombre: 'Flash Benja',
     faltas: 0,
     face: 'img/local15.png',
-    puntos: 0
+    puntos: 0,
+    visible: true
   }, {
     id: 11,
     dorsal: 17,
@@ -842,7 +868,8 @@ angular.module('starter.services', [])
     nombre: 'Ximo B-52',
     faltas: 0,
     face: 'img/local17.png',
-    puntos: 0
+    puntos: 0,
+    visible: true
   }
   ];
   var jugs=Che;
@@ -857,7 +884,8 @@ angular.module('starter.services', [])
           
           if (!PonerRockeros){
             dorsal=i+4;                      
-            nombre ="Jugador dorsal " + String( i +4);  
+            nombre=jugs[i].nombre;
+            //nombre ="Jugador dorsal " + String( i +4);  
             imagen="img/local" + String(dorsal) + ".png";  
           }
           else
@@ -873,6 +901,7 @@ angular.module('starter.services', [])
           jugs[i].nombre=nombre;
           jugs[i].faltas=0;
           jugs[i].puntos=0;
+          jugs[i].visible=true;
           //console.log(nombre+ " " + jugs[i].faltas);  
          }       
     }

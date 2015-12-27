@@ -15,3 +15,32 @@ VA?
     </p>
   </ion-content>
 </ion-view>
+
+
+
+
+
+
+
+ <table>
+          <tr>
+            <img ng-src="{{jugador.face}}" style="width: 64px; height: 64px">
+          </tr>
+          <tr>
+            <td>
+              <button class="button button-icon icon ion-document-text"
+              ng-click="guardarDatos()"></button>
+            </td>
+            <td>
+              <p>
+              <label class="item item-input" width=50px>
+                <input type="text" placeholder="{{jugador.nombre}}">
+              </label>
+              
+               </p>
+                <p>Puntos:    <b>{{jugador.puntos}}</b> &nbsp;&nbsp;&nbsp;Faltas:  <b>{{jugador.faltas}}</b></p>
+            </td>
+            
+          </tr>
+
+        </table>

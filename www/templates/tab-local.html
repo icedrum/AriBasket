@@ -1,27 +1,26 @@
 <ion-view view-title="Local">
   <ion-content>
     
-       
-   
-        <div class="row">
-            <div class="col col-50">Equipo&nbsp;&nbsp;&nbsp;&nbsp;
-               <img ng-src="img/save.png" ng-click="guardarDatos()" style="width: 15px; height: 15  px">
+
+      <div class="row">
+            <div class="col col-33">Equipo&nbsp;&nbsp;&nbsp;&nbsp;
+                <img ng-src="img/save.png" ng-click="guardarDatos()" style="width: 15px; height: 15  px">
             </div>
             
-            <div class="col col-20">Cambio</div>
+            <input type="text" ng-model="data.Nombre" value="{{data.Nombre}}" >
         </div>
 
-
-          <div class="row">
-            <div class="col col-50">                  
-                    <ion-label><input type="text" ng-style="{ 'background' : bgColor }" value="{{Nombre}}"> </ion-label>                         
-            </div>
         
-            <div class="col col-20" style="padding:2">
-              <ion-toggle ng-model=value ng-change="toggleChange()" style="padding:2;" ></ion-toggle>  </div>
-        </div>
 
-
+      <li class="item item-toggle">
+          Habilitar cambios
+           <label class="toggle toggle-positive">
+             <input type="checkbox" ng-model="value" ng-click="toggleChange()" >
+             <div class="track">
+               <div class="handle"></div>
+             </div>
+           </label>
+        </li>
 
 
     <ion-list  show-reorder="data.showReorder">  
@@ -33,7 +32,9 @@
 
           <img ng-src="{{jug.face}}"> 
           <h2>{{jug.nombre}}</h2>
-          <p>Puntos:    <b>{{jug.puntos}}</b> &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;Faltas:  <b>{{jug.faltas}}</b></p>
+          <p ng-if="jug.visible != true">Oculto</p>
+          <p>Puntos:    <b>{{jug.puntos}}</b> &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;Faltas:  <b>{{jug.faltas}}</b>
+          </p>
 
           <ion-reorder-button class="ion-navicon" on-reorder="moveItem(jug, $fromIndex, $toIndex)"></ion-reorder-button>
           <span ng-if="data.showReorder == false">
