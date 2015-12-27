@@ -100,7 +100,7 @@ angular.module('starter.controllers', [])
       
   
       
-      $scope.AuxId=110;
+
 
       $scope.EquipoV=EquipoVisitante.getPlayers(); 
       $scope.EquipoL=EquipoLocal.getPlayers();
@@ -109,13 +109,19 @@ angular.module('starter.controllers', [])
        
         if ($scope.Opcion == "V") {          
             $scope.jugador= $scope.EquipoV[$scope.IdJugador];
-
-          } else {
+            $scope.vPuntos= EquipoVisitante.DatosPorCuartoJugador(true,$scope.IdJugador);
+            $scope.vFaltas= EquipoVisitante.DatosPorCuartoJugador(false,$scope.IdJugador);
+     
+        }    
+        else {
     
             $scope.jugador= $scope.EquipoL[$scope.IdJugador];  
-          } 
-          $scope.EsVisible=$scope.jugador.visible;
-     
+            $scope.vPuntos= EquipoLocal.DatosPorCuartoJugador(true,$scope.IdJugador);
+            $scope.vFaltas= EquipoLocal.DatosPorCuartoJugador(false,$scope.IdJugador);
+        } 
+        
+        $scope.EsVisible=$scope.jugador.visible;
+          
 
         if ($scope.Opcion == "T") {
           $scope.ElHistorico=F_Historico.all();
@@ -123,7 +129,6 @@ angular.module('starter.controllers', [])
         {
           vEq =$stateParams.OpcionEquipoJugador.substr(1,1);
           vJug=$stateParams.OpcionEquipoJugador.substr(2);
-          console.log("Equipo" + vEq);
           $scope.ElHistorico=F_Historico.allplayerN(vJug,vEq);    
         };
 
@@ -246,10 +251,10 @@ angular.module('starter.controllers', [])
        $scope.PuntosEquipo=EquipoLocal.getPuntosPorCuarto();
        $scope.FaltasEquipo=EquipoLocal.getFaltasPorCuarto();
         
-
+       $scope.EquipoLocal=EquipoLocal.getPlayers();
      });
 
-     $scope.EquipoLocal=EquipoLocal.getPlayers();
+     
      //$scope.Nombre=
      
      
@@ -425,7 +430,7 @@ angular.module('starter.controllers', [])
    };
 
   VaciarDatos2=function(){
-      
+       console.log($scope.checkboxModel.Rockeros);  
        //Esto deberia estar dentro de cada factory
        localStorage.removeItem("JugadoresEquipoLocal");  
        localStorage.removeItem("JugadoresEquipoVisitante");  

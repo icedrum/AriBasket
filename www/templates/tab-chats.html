@@ -11,7 +11,7 @@
       <div ng-show="Opcion != 'T'">   
         <div class="row" >         
           <div class="col col-33"  align="left">
-              <a  ng-href="#/tab/dash"> <img ng-src="{{jugador.face}}" style="width: 96px; height: 96px"></a>
+              <a  ng-href="#/tab/chats/:T1"> <img ng-src="{{jugador.face}}" style="width: 96px; height: 96px"></a>
          </div>
          <div  class="col col-67" align="left">
             <div class="row" >
@@ -25,7 +25,8 @@
               <ion-checkbox class="sinborde"  ng-click="ChkFuncion()" ng-model="EsVisible">Visible</ion-checkbox> 
             </div>
             <div  class="row">
-                 <p>Puntos:    <b>{{jugador.puntos}}</b> &nbsp;&nbsp;&nbsp;Faltas:  <b>{{jugador.faltas}}</b></p>
+                 <p>Puntos:  <b>{{jugador.puntos}}</b>&nbsp;&nbsp;
+                 <font color="grey">({{vPuntos}})</font> <br>Faltas: &nbsp; <b>{{jugador.faltas}}</b>&nbsp;&nbsp;<font color="grey">({{vFaltas}})</font></p>
             </div>
           </div>
         </div>  

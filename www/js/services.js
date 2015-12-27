@@ -121,6 +121,8 @@ angular.module('starter.services', [])
        var Ultimocuarto=0;
        var quecuarto;
             
+
+
         var acciones=F_Historico.all();
         for (var i = 0; i < acciones.length; i++) {
 
@@ -151,6 +153,46 @@ angular.module('starter.services', [])
         
       }
 
+    this.DatosPorCuartoJugador=function(LosPuntos,idJugador){
+       var datosCuarto =[0,0,0,0,0];
+       var Ultimocuarto=0;
+       var quecuarto;
+            
+       var cadena;
+
+        var acciones=F_Historico.all();
+        for (var i = 0; i < acciones.length; i++) {
+
+          if (acciones[i].Periodo> Ultimocuarto) Ultimocuarto=acciones[i].Periodo;
+          if (acciones[i].Equipo == "L" && acciones[i].id == idJugador) { 
+
+              quecuarto=acciones[i].Periodo;
+              if (quecuarto>4) quecuarto=5;
+              quecuarto=quecuarto-1;
+
+              if (LosPuntos){
+                if (acciones[i].Accion == "P") datosCuarto[quecuarto]=datosCuarto[quecuarto] + acciones[i].puntos;
+              }
+              else
+              {
+                if (acciones[i].Accion == "F") datosCuarto[quecuarto]=datosCuarto[quecuarto] + 1;
+              }
+            }
+
+        }
+        
+
+        quecuarto=3;
+        if  (Ultimocuarto>4)  quecuarto=4;
+        cadena="";
+        for (var i = 0; i <= quecuarto; i++) {
+          cadena=cadena + String(datosCuarto[i]);
+          if (i < quecuarto) cadena=cadena + " + ";              
+          
+        }
+        return cadena;
+        
+      } 
 
 
 
@@ -372,6 +414,52 @@ angular.module('starter.services', [])
         }
         
       }
+
+
+
+      this.DatosPorCuartoJugador=function(LosPuntos,idJugador){
+       var datosCuarto =[0,0,0,0,0];
+       var Ultimocuarto=0;
+       var quecuarto;
+            
+       var cadena;
+
+        var acciones=F_Historico.all();
+        for (var i = 0; i < acciones.length; i++) {
+
+          if (acciones[i].Periodo> Ultimocuarto) Ultimocuarto=acciones[i].Periodo;
+          if (acciones[i].Equipo == "V" && acciones[i].id == idJugador) { 
+
+              quecuarto=acciones[i].Periodo;
+              if (quecuarto>4) quecuarto=5;
+              quecuarto=quecuarto-1;
+
+              if (LosPuntos){
+                if (acciones[i].Accion == "P") datosCuarto[quecuarto]=datosCuarto[quecuarto] + acciones[i].puntos;
+              }
+              else
+              {
+                if (acciones[i].Accion == "F") datosCuarto[quecuarto]=datosCuarto[quecuarto] + 1;
+              }
+            }
+
+        }
+        
+
+        quecuarto=3;
+        if  (Ultimocuarto>4)  quecuarto=4;
+        cadena="";
+        for (var i = 0; i <= quecuarto; i++) {
+          cadena=cadena + String(datosCuarto[i]);
+          if (i < quecuarto) cadena=cadena + " + ";              
+          
+        }
+        return cadena;
+        
+      } 
+
+
+
 
     this.Cambio= function(Origen,Fin) {
         //Para que no haga los cambios iniciales (poner el 5 titular)
@@ -878,14 +966,16 @@ angular.module('starter.services', [])
         var imagen;
         var dorsal;
         var nombre;
+
         for (var i = 0; i < 12; i++) {
          
 
           
           if (!PonerRockeros){
+
             dorsal=i+4;                      
-            nombre=jugs[i].nombre;
-            //nombre ="Jugador dorsal " + String( i +4);  
+            //nombre=jugs[i].nombre;
+            nombre ="Jugador dorsal " + String( i +4);  
             imagen="img/local" + String(dorsal) + ".png";  
           }
           else
@@ -902,7 +992,7 @@ angular.module('starter.services', [])
           jugs[i].faltas=0;
           jugs[i].puntos=0;
           jugs[i].visible=true;
-          //console.log(nombre+ " " + jugs[i].faltas);  
+          console.log(nombre+ " " + jugs[i].faltas);  
          }       
     }
   
