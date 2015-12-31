@@ -960,13 +960,33 @@ angular.module('starter.services', [])
     visible: true
   }
   ];
-  var jugs=Che;
+  var jugs=  [];
+
+  function InicializarVector(){
+         for (var i = 0; i < 12; i++) {
+           
+              var obj = {};
+              obj["id"] =Che[i].id;
+              obj["dorsal"] = Che[i].dorsal;
+              obj["orden"] = i;
+              obj["nombre"] = Che[i].nombre;
+              obj["faltas"] = 0;
+              obj["face"] =Che[i].face ;
+              obj["puntos"] = 0;
+              obj["visible"] = true;
+              
+              jugs.push(obj);
+        }
+    }
+
+
+
   function LimpiarJugadores(PonerRockeros) {
         
         var imagen;
         var dorsal;
         var nombre;
-
+        console.log("Poner :" + PonerRockeros);
         for (var i = 0; i < 12; i++) {
          
 
@@ -985,7 +1005,7 @@ angular.module('starter.services', [])
             imagen=Che[i].face ; 
           }
           jugs[i].orden = i;
-          
+          console.log(i + " :" + Che[i].nombre); 
           jugs[i].dorsal=dorsal;
           jugs[i].face=imagen;
           jugs[i].nombre=nombre;
@@ -999,7 +1019,7 @@ angular.module('starter.services', [])
 
   return {
     all: function() {
-
+      if (jugs.length==0) InicializarVector();
       return jugs;
     },
 
@@ -1012,3 +1032,4 @@ angular.module('starter.services', [])
 
 
 
+    
