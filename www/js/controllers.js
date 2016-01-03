@@ -95,75 +95,25 @@ angular.module('starter.controllers', [])
       // L  local      V visitante       T todos
       //if ($stateParams.OpcionEquipoJugador=="") $stateParams.OpcionEquipoJugador="T";
       $scope.Opcion =$stateParams.OpcionEquipoJugador.substr(1,1);
-      $scope.IdJugador=$stateParams.OpcionEquipoJugador.substr(2);
-      
-      
+     
+    
   
       
 
 
-      $scope.EquipoV=EquipoVisitante.getPlayers(); 
-      $scope.EquipoL=EquipoLocal.getPlayers();
+      
 
       $scope.$on('$ionicView.enter',function(e){
+        $scope.Data = {
+          filtroPeriodo:"Todos",
+          filtroEquipo:"Ambos",   
+          filtroAccion:"Todas",
+        }
+      
+        $scope.ElHistorico=F_Historico.all();     
        
-        if ($scope.Opcion == "V") {          
-            $scope.jugador= $scope.EquipoV[$scope.IdJugador];
-            $scope.vPuntos= EquipoVisitante.DatosPorCuartoJugador(true,$scope.IdJugador);
-            $scope.vFaltas= EquipoVisitante.DatosPorCuartoJugador(false,$scope.IdJugador);
-     
-        }    
-        else {
-    
-            $scope.jugador= $scope.EquipoL[$scope.IdJugador];  
-            $scope.vPuntos= EquipoLocal.DatosPorCuartoJugador(true,$scope.IdJugador);
-            $scope.vFaltas= EquipoLocal.DatosPorCuartoJugador(false,$scope.IdJugador);
-        } 
-        
-        $scope.EsVisible=$scope.jugador.visible;
-          
-
-        if ($scope.Opcion == "T") {
-          $scope.ElHistorico=F_Historico.all();
-        } else
-        {
-          vEq =$stateParams.OpcionEquipoJugador.substr(1,1);
-          vJug=$stateParams.OpcionEquipoJugador.substr(2);
-          $scope.ElHistorico=F_Historico.allplayerN(vJug,vEq);    
-        };
-
-        $stateParams.OpcionEquipoJugador ="T1";
       });
     
-    $scope.ChkFuncion = function() {
-        console.log("asdadasdasd");
-        if ($scope.Opcion == "T") {
-          
-        } else
-          if ($scope.Opcion == "V") 
-            $scope.EquipoV[$scope.IdJugador].visible=false;
-          else
-            $scope.EquipoL[$scope.IdJugador].visible=false;
-    }
-
-
-    $scope.NombreJugador=function(LocalVisitante,KJugador){
-        
-        if (String(LocalVisitante) == "V") {          
-          return $scope.EquipoV[KJugador].nombre;
-        } else {
-          return  $scope.EquipoL[KJugador].nombre;;
-        } 
-    }
-
-    $scope.Data = {
-      filtroPeriodo:"Todos",
-      filtroEquipo:"Ambos",
-      filtroAccion:"Todas",
-    }
-    
-
-
 
     $scope.selectUpdatedPer = function(filtroPeriodo) {
         //var vfiltro=0;
@@ -171,26 +121,30 @@ angular.module('starter.controllers', [])
         // if (filtroPeriodo == "Segundo") vfiltro=2;
         // if (filtroPeriodo == "Tercero") vfiltro=3;
         // if (filtroPeriodo == "Cuarto") vfiltro=4;
-        $scope.Data.filtroPeriodo=filtroPeriodo;
-        ValoreConFiltro();
+     
+        ValoreConFiltro($scope.Data.filtroPeriodo,$scope.Data.filtroEquipo, $scope.Data.filtroAccion);
     }
     $scope.selectUpdatedEqu = function(filtroEquipo) {
-        $scope.Data.filtroEquipo=filtroEquipo;
-        ValoreConFiltro();
+
+      
+        ValoreConFiltro($scope.Data.filtroPeriodo,$scope.Data.filtroEquipo, $scope.Data.filtroAccion);
+
+     
+
     }
     $scope.selectUpdatedAcc = function(filtroAccion) {
-        $scope.Data.filtroAccion=filtroAccion;
-        ValoreConFiltro();
-    }
+      
+        ValoreConFiltro($scope.Data.filtroPeriodo,$scope.Data.filtroEquipo, $scope.Data.filtroAccion);
+      }
 
 
-    ValoreConFiltro=function(){
+    ValoreConFiltro=function(filPer,fileEq,filAcc){
        console.log("Filtro cambiado: ");      
-       console.log("Periodo: " + $scope.Data.filtroPeriodo);
-       console.log("Equipo: " + $scope.Data.filtroEquipo);
-       console.log("Accion: " + $scope.Data.filtroAccion);
-
-       $scope.ElHistorico=F_Historico.fitro($scope.Data.filtroPeriodo,$scope.Data.filtroEquipo, $scope.Data.filtroAccion);    
+       console.log("Periodo: " + filPer);
+       console.log("Equipo: " + fileEq);
+       console.log("Accion: " +  filAcc);
+      
+      $scope.ElHistorico=F_Historico.fitro(filPer,fileEq,filAcc);    
       
 
     } 
@@ -236,10 +190,80 @@ angular.module('starter.controllers', [])
     
 })
 
-.controller('ChatDetailCtrl', function($scope, $stateParams, Chats) {
 
+.controller('DatosJugadorL', function($scope, $stateParams, Chats) {
+    $scope.IdJugador=$stateParams.OpcionEquipoJugador.substr(2); 
+    $scope.EquipoL=EquipoLocal.getPlayers();
+   
+    $scope.jugador= $scope.EquipoL[$scope.IdJugador];  
+    $scope.vPuntos= EquipoLocal.DatosPorCuartoJugador(true,$scope.IdJugador);
+    $scope.vFaltas= EquipoLocal.DatosPorCuartoJugador(false,$scope.IdJugador);
+ 
+    $scope.ElHistorico=F_Historico.allplayerN(idJugador,"L"); 
+
+
+
+    $scope.NombreJugador=function(KJugador){  
+        return $scope.EquipoV[KJugador].nombre;
+         
+    }
+    $scope.ChkFuncion = function() {
+       $scope.EquipoL[$scope.IdJugador].visible=false;
+    }
+    $scope.LaAccion=function(vAccion){
+      switch(vAccion) {
+      case "C":
+          return "Cambio"
+          break;
+      case "P":
+          return "Canasta"
+          break;
+      case "F":
+          return "Falta"
+          break;
+
+      default:
+      };
+
+    }    
 
 })
+
+.controller('DatosJugadorV', function($scope, $stateParams, Chats) {
+    $scope.IdJugador=$stateParams.OpcionEquipoJugador.substr(2);
+    $scope.EquipoV=EquipoVisitante.getPlayers();              
+    $scope.jugador= $scope.EquipoV[$scope.IdJugador];
+    $scope.vPuntos= EquipoVisitante.DatosPorCuartoJugador(true,$scope.IdJugador);
+    $scope.vFaltas= EquipoVisitante.DatosPorCuartoJugador(false,$scope.IdJugador);
+
+    $scope.ElHistorico=F_Historico.allplayerN(idJugador,"L");
+
+
+
+    $scope.NombreJugador=function(KJugador){  
+          return  $scope.EquipoL[KJugador].nombre;
+    }
+    $scope.ChkFuncion = function() {
+            $scope.EquipoV[$scope.IdJugador].visible=false;
+    }
+    $scope.LaAccion=function(vAccion){
+      switch(vAccion) {
+      case "C":
+          return "Cambio"
+          break;
+      case "P":
+          return "Canasta"
+          break;
+      case "F":
+          return "Falta"
+          break;
+
+      default:
+      };
+
+    }    
+})
+
 
 
 .controller('LocalCtrl', function($scope, $stateParams,EquipoLocal,F_Historico) {

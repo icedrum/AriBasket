@@ -8,33 +8,10 @@
        <!-- <div class="bar bar-header bar-royal"  ng-show="Opcion != 'T'">
       <a class="item item-thumbnail-left" ng-show="Opcion != 'T'" href="#">     -->
        
-      <div ng-show="Opcion != 'T'">   
-        <div class="row" >         
-          <div class="col col-33"  align="left">
-              <a  ng-href="#/tab/chats/:T1"> <img ng-src="{{jugador.face}}" style="width: 96px; height: 96px"></a>
-         </div>
-         <div  class="col col-67" align="left">
-            <div class="row" >
-              
-                  <label class="item item-input sinborde" width=50px>
-                      <input type="text" placeholder="{{jugador.nombre}}">
-                  </label>
-              
-            </div>                 
-            <div  class="row">
-              <ion-checkbox class="sinborde"  ng-click="ChkFuncion()" ng-model="EsVisible">Visible</ion-checkbox> 
-            </div>
-            <div  class="row">
-                 <p>Puntos:  <b>{{jugador.puntos}}</b>&nbsp;&nbsp;
-                 <font color="grey">({{vPuntos}})</font> <br>Faltas: &nbsp; <b>{{jugador.faltas}}</b>&nbsp;&nbsp;<font color="grey">({{vFaltas}})</font></p>
-            </div>
-          </div>
-        </div>  
-      </div>
-     
+      
 
        
-      <a class="item" ng-show="Opcion == 'T'" >
+      
                
         <div class="row" >         
          <div class="col col-33" align="left">
@@ -72,7 +49,6 @@
               </label>
           </div>   
         </div>
-      </a>         
                 
 
         <div class="row header" >

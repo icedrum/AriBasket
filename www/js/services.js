@@ -578,7 +578,7 @@ angular.module('starter.services', [])
 
 
     this.PonerNombreCuarto = function(){
-      console.log(QueCuarto);
+     
       var txtCuarto;
       switch(QueCuarto) {
         case 1:
@@ -734,6 +734,7 @@ angular.module('starter.services', [])
         console.log("Fitro: " + String(vPeriodo) +  vEquipo + vAccion);
         var SeDevuelve;
         var ArrayDevuelto=[];
+        console.log(ArrayDevuelto);
         for (var j = 0;j < HistAcciones.length; j++) {
           SeDevuelve=true;
 
@@ -752,11 +753,13 @@ angular.module('starter.services', [])
           if (SeDevuelve) ArrayDevuelto.push(HistAcciones[j]);          
           
         };    
+        console.log(ArrayDevuelto);   
         return ArrayDevuelto
     },
-    allplayerN: function(Jug,Equi) {      
-      return  HistAcciones.filter(function(item){
-        return item.id == Jug && item.Equipo===Equi;
+    allplayerN: function(Jug,Equi) { 
+        
+     return  HistAcciones.filter(function(item){
+        return item.id == Jug && item.Equipo===Equi;  
       });
 
     },
