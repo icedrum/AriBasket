@@ -80,6 +80,19 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
       }
     }
   })
+  
+
+  .state('tab.jugadorL', {
+    url: '/local/:idJugador',
+    views: {
+      'tab-local': {
+        templateUrl: 'templates/tab-jugadorL.html',
+        controller: 'DatosJugadorL'
+      }
+    }
+  })
+
+
 
   .state('tab.visitante', {
     url: '/visitante',
@@ -90,6 +103,17 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
       }
     }
   })
+
+  .state('tab.jugadorV', {
+    url: '/visitante/:idJugador',
+    views: {
+      'tab-visitante': {
+        templateUrl: 'templates/tab-jugadorV.html',
+        controller: 'DatosJugadorV'
+      }
+    }
+  })
+
 
   .state('tab.seleccion', {
     url: '/dash/:EquipoPuntos',

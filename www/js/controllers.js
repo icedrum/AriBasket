@@ -90,18 +90,13 @@ angular.module('starter.controllers', [])
 .controller('ChatsCtrl', function($scope,  $stateParams,F_Historico,EquipoVisitante,EquipoLocal) {
     
      
-
         
       // L  local      V visitante       T todos
       //if ($stateParams.OpcionEquipoJugador=="") $stateParams.OpcionEquipoJugador="T";
       $scope.Opcion =$stateParams.OpcionEquipoJugador.substr(1,1);
-     
-    
-  
-      
+      $scope.EquipoL=EquipoLocal.getPlayers();
+      $scope.EquipoV=EquipoVisitante.getPlayers(); 
 
-
-      
 
       $scope.$on('$ionicView.enter',function(e){
         $scope.Data = {
@@ -139,17 +134,22 @@ angular.module('starter.controllers', [])
 
 
     ValoreConFiltro=function(filPer,fileEq,filAcc){
-       console.log("Filtro cambiado: ");      
-       console.log("Periodo: " + filPer);
-       console.log("Equipo: " + fileEq);
-       console.log("Accion: " +  filAcc);
+       // console.log("Filtro cambiado: ");      
+       // console.log("Periodo: " + filPer);
+       // console.log("Equipo: " + fileEq);
+       // console.log("Accion: " +  filAcc);
       
       $scope.ElHistorico=F_Historico.fitro(filPer,fileEq,filAcc);    
       
 
     } 
 
-
+  $scope.NombreJugador=function(Equipo,KJugador){  
+      if (Equipo=="V")
+        return $scope.EquipoV[KJugador].nombre;
+      else   
+        return $scope.EquipoL[KJugador].nombre;
+    }
 
 
     $scope.LaAccion=function(vAccion){
@@ -158,7 +158,7 @@ angular.module('starter.controllers', [])
           return "Cambio"
           break;
       case "P":
-          return "Canasta"
+          return "canasta"
           break;
       case "F":
           return "Falta"
@@ -191,15 +191,15 @@ angular.module('starter.controllers', [])
 })
 
 
-.controller('DatosJugadorL', function($scope, $stateParams, Chats) {
-    $scope.IdJugador=$stateParams.OpcionEquipoJugador.substr(2); 
+.controller('DatosJugadorL', function($scope, $stateParams,EquipoLocal,F_Historico) {
+    $scope.IdJugador=$stateParams.idJugador.substr(2); 
     $scope.EquipoL=EquipoLocal.getPlayers();
    
     $scope.jugador= $scope.EquipoL[$scope.IdJugador];  
     $scope.vPuntos= EquipoLocal.DatosPorCuartoJugador(true,$scope.IdJugador);
     $scope.vFaltas= EquipoLocal.DatosPorCuartoJugador(false,$scope.IdJugador);
  
-    $scope.ElHistorico=F_Historico.allplayerN(idJugador,"L"); 
+    $scope.ElHistorico=F_Historico.allplayerN($scope.IdJugador,"L"); 
 
 
 
@@ -229,14 +229,15 @@ angular.module('starter.controllers', [])
 
 })
 
-.controller('DatosJugadorV', function($scope, $stateParams, Chats) {
-    $scope.IdJugador=$stateParams.OpcionEquipoJugador.substr(2);
-    $scope.EquipoV=EquipoVisitante.getPlayers();              
-    $scope.jugador= $scope.EquipoV[$scope.IdJugador];
+.controller('DatosJugadorV', function($scope, $stateParams,F_Historico,EquipoVisitante) {
+    $scope.IdJugador=$stateParams.idJugador.substr(2); 
+    $scope.EquipoL=EquipoVisitante.getPlayers();
+   
+    $scope.jugador= $scope.EquipoL[$scope.IdJugador];  
     $scope.vPuntos= EquipoVisitante.DatosPorCuartoJugador(true,$scope.IdJugador);
     $scope.vFaltas= EquipoVisitante.DatosPorCuartoJugador(false,$scope.IdJugador);
-
-    $scope.ElHistorico=F_Historico.allplayerN(idJugador,"L");
+ 
+    $scope.ElHistorico=F_Historico.allplayerN($scope.IdJugador,"V"); 
 
 
 
