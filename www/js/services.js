@@ -714,6 +714,112 @@ angular.module('starter.services', [])
         localStorage.setItem("historico", cadena);    
     }
 
+    function esSuficientementeGrande(elemento) {
+      return elemento.Accion = "P";
+    }
+
+      
+
+    function TanteoPorPeriodo(elemento,Periodo){
+      return elemento.Periodo = Periodo;
+    }
+    function TanteoPorProrroga(elemento){
+          return elemento.Periodo >4;
+    }
+
+
+
+    ArrayArrastrado=function(){
+        
+        var arrPuntos=HistAcciones.filter(esSuficientementeGrande);
+
+        var Puntos_Per= new Array();
+
+        for (var j = 0;j < 10; j++){
+          Puntos_Per[j]=new Array();  
+        }
+        var i;
+        var cadena;
+        var cadena2;
+        for (var j = 0;j < arrPuntos.length; j++){
+            if (arrPuntos[j].Periodo>4)
+                i=4;
+            else
+                i=arrPuntos[j].Periodo-1;
+            i=i*2;
+
+            if (arrPuntos[j].Equipo=="V") {
+              cadena="";
+              cadena2=arrPuntos[j].puntos;
+            } else {
+              cadena2="";
+              cadena=arrPuntos[j].puntos;
+            }
+            
+            Puntos_Per[i].push(cadena); 
+            Puntos_Per[i+1].push(cadena2);
+
+        }
+
+        //Relleno los demas arrays hasta completar
+        var MaximoNumero=0;
+        for (var j = 0;j < Puntos_Per.length; j++){
+          //onsole.log("Buc1:" + j + " - Max: " +  MaximoNumero)
+          if (Puntos_Per[j].length>MaximoNumero) MaximoNumero=Puntos_Per[j].length;  
+        }
+        for (var j = 0;j < Puntos_Per.length; j++){
+          for (var i =Puntos_Per[j].length;i < MaximoNumero; i++){
+             Puntos_Per[j].push(""); 
+          }  
+        }
+          
+
+
+        //Hacemos el arrastrado
+        var local=0;
+        var visitante=0;
+        for (var j = 0;j < Puntos_Per.length; j++){
+          if (j % 2 == 0)  
+              inicial=visitante;
+          else
+              inicial=local;
+
+          for (var i =0;i < Puntos_Per[j].length; i++){
+            console.log ("ji" + j + "-" + i + ": " + Puntos_Per[j][i] );
+             if (Puntos_Per[j][i] != ''){
+                inicial=inicial + Puntos_Per[j][i];
+                Puntos_Per[j][i] =inicial;                
+             } 
+          }  
+          if(j % 2 == 0)  
+              visitante=inicial;
+          else
+              local=inicial;
+
+        }
+
+
+        //Le damos la vuelta al array
+        var Puntos_Per2= new Array();
+
+        
+
+        for (var i =0;i < Puntos_Per[0].length; i++){
+          Puntos_Per2[i]=new Array();
+          for (var j = 0;j < Puntos_Per.length; j++){
+               Puntos_Per2[i].push( Puntos_Per[j][i]); 
+          }          
+        }  
+
+
+        console.log(Puntos_Per2);
+        return  Puntos_Per2;  
+    }
+
+
+
+
+
 
   return {
     all: function() {
@@ -762,6 +868,9 @@ angular.module('starter.services', [])
         return item.id == Jug && item.Equipo===Equi;  
       });
 
+    },
+    arrArrastr: function(){
+      return ArrayArrastrado();
     },
     guardar: function(){
       GuardarDatosFich();

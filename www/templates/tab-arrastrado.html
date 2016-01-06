@@ -1,0 +1,39 @@
+<ion-view view-title="Tanteo arrastrado">
+
+  
+    <ion-content>
+    	
+
+
+        <div class="row header" >
+            <div class="col col-20" align="center">Per 1</div>               
+            <div class="col col-20" align="center">Per 2</div>
+            <div class="col col-20" align="center">Per 3</div>
+            <div class="col col-20" align="center">Per 4</div>
+            <div class="col col-20" align="center">Extra</div>      
+                           
+    	</div>
+
+        <table width="100%" border="1">
+  
+           <tr  ng-repeat="his in DatosArrastrados  " ng-class="$even ? 'even' : 'odd'" >
+
+
+			<td width="10%" align="right">&nbsp;&nbsp;{{his[0]}}</td>
+            <td width="10%" align="right">&nbsp;&nbsp;{{his[1]}}</td>
+            <td width="10%" align="right"><font color="blue">{{his[2]}}</td>
+              <td width="10%" align="right"><font color="blue">{{his[3]}}</td>
+              <td width="10%" align="right">{{his[4]}}</td>
+              <td width="10%" align="right">{{his[5]}}</td>
+              <td width="10%" align="right"><font color="blue">{{his[6]}}</td>
+              <td width="10%" align="right"><font color="blue">{{his[7]}}</td>
+              <td width="10%" align="right">{{his[8]}}</td>
+              <td width="10%" align="right">{{his[9]}}</td>
+        		
+           </tr>
+        </table>
+
+
+    </ion-content>
+
+</ion-view>

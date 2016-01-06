@@ -4,6 +4,8 @@
     <ion-content>
 
 
+
+
       
        <!-- <div class="bar bar-header bar-royal"  ng-show="Opcion != 'T'">
       <a class="item item-thumbnail-left" ng-show="Opcion != 'T'" href="#">     -->
@@ -14,7 +16,15 @@
       
                
         <div class="row" >         
-         <div class="col col-33" align="left">
+
+
+          <a href="#/tab/chats/:ARR">
+            <i class="icon ion-ios-pulse">
+            </i>
+            </a>
+            
+          
+         <div class="col col-25" align="left">
             <label class="item  item-select">
                <h5>Periodo</h5>
               <select ng-model="Data.filtroPeriodo" ng-change="selectUpdatedPer(Data.filtroPeriodo)">
@@ -59,13 +69,13 @@
                                
         </div>
 
-        <table>
+        <table width="100%" border="0">
   
            <tr  ng-repeat="his in ElHistorico  | orderBy:'-hora'" ng-class="$even ? 'even' : 'odd'" >
 
 
               
-              <td width="22%" align="left">{{his.Periodo}}&nbsp;&nbsp;{{his.minuto}}</td>
+              <td width="22%" align="left">&nbsp;&nbsp;&nbsp;&nbsp;{{his.Periodo}}&nbsp;&nbsp;{{his.minuto}}</td>
               <td width="12%" align="center">{{his.Equipo}}</td>
 
               <td  width="50%" align="left" ng-init="AuxId=NombreJugador(his.Equipo,his.id);">
@@ -79,15 +89,7 @@
            </tr>
         </table>
 
-  <ion-footer-bar>
-  <div class="buttons">
-    <button class="button button-full">Button 1</button>
-  </div>
-  <h1 class="title">Title</h1>      
-  <div class="buttons" ng-click="doSomething()">
-    <button class="button">Button 2</button>
-  </div>
-</ion-footer-bar>   
+
     </ion-content>
 
 </ion-view>

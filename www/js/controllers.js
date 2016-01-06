@@ -87,13 +87,23 @@ angular.module('starter.controllers', [])
   };
 })
 
+
+.controller('TanteoArrastrado', function($scope, $stateParams,F_Historico) {
+    $scope.$on('$ionicView.enter',function(e){
+        $scope.DatosArrastrados=F_Historico.arrArrastr(); 
+     
+      });
+    
+    
+})  
+
 .controller('ChatsCtrl', function($scope,  $stateParams,F_Historico,EquipoVisitante,EquipoLocal) {
     
      
         
       // L  local      V visitante       T todos
       //if ($stateParams.OpcionEquipoJugador=="") $stateParams.OpcionEquipoJugador="T";
-      $scope.Opcion =$stateParams.OpcionEquipoJugador.substr(1,1);
+      $scope.Opcion ="T"  //$stateParams.OpcionEquipoJugador.substr(1,1);
       $scope.EquipoL=EquipoLocal.getPlayers();
       $scope.EquipoV=EquipoVisitante.getPlayers(); 
 

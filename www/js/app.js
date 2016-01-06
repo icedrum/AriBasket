@@ -51,7 +51,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
   })
 
   .state('tab.chats', {
-      url: '/chats/:OpcionEquipoJugador',
+      url: '/chats',
       views: {
         'tab-chats': {
           templateUrl: 'templates/tab-chats.html',
@@ -59,12 +59,13 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
         }
       }
     })
-    .state('tab.chat-detail', {
+    
+  .state('tab.arrastrado', {
       url: '/chats/:chatId',
       views: {
         'tab-chats': {
-          templateUrl: 'templates/chat-detail.html',
-          controller: 'ChatDetailCtrl'
+          templateUrl: 'templates/tab-arrastrado.html',
+          controller: 'TanteoArrastrado'
         }
       }
     })
