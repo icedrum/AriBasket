@@ -715,24 +715,17 @@ angular.module('starter.services', [])
     }
 
     function esSuficientementeGrande(elemento) {
-      return elemento.Accion = "P";
+      return elemento.Accion == "P";
     }
 
-      
-
-    function TanteoPorPeriodo(elemento,Periodo){
-      return elemento.Periodo = Periodo;
-    }
-    function TanteoPorProrroga(elemento){
-          return elemento.Periodo >4;
-    }
+    
 
 
 
     ArrayArrastrado=function(){
         
         var arrPuntos=HistAcciones.filter(esSuficientementeGrande);
-
+        console.log (arrPuntos);
         var Puntos_Per= new Array();
 
         for (var j = 0;j < 10; j++){
@@ -785,7 +778,7 @@ angular.module('starter.services', [])
               inicial=local;
 
           for (var i =0;i < Puntos_Per[j].length; i++){
-            console.log ("ji" + j + "-" + i + ": " + Puntos_Per[j][i] );
+        //    console.log ("ji" + j + "-" + i + ": " + Puntos_Per[j][i] );
              if (Puntos_Per[j][i] != ''){
                 inicial=inicial + Puntos_Per[j][i];
                 Puntos_Per[j][i] =inicial;                
