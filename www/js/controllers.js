@@ -211,14 +211,16 @@ angular.module('starter.controllers', [])
  
     $scope.ElHistorico=F_Historico.allplayerN($scope.IdJugador,"L"); 
 
-
+    $scope.data = {
+          estaChk:$scope.EquipoL[$scope.IdJugador].visible
+    }
 
     $scope.NombreJugador=function(KJugador){  
-        return $scope.EquipoV[KJugador].nombre;
-         
+        return $scope.EquipoL[KJugador].nombre;      
     }
     $scope.ChkFuncion = function() {
-       $scope.EquipoL[$scope.IdJugador].visible=false;
+
+       $scope.EquipoL[$scope.IdJugador].visible=!$scope.EquipoL[$scope.IdJugador].visible;
     }
     $scope.LaAccion=function(vAccion){
       switch(vAccion) {
@@ -241,21 +243,23 @@ angular.module('starter.controllers', [])
 
 .controller('DatosJugadorV', function($scope, $stateParams,F_Historico,EquipoVisitante) {
     $scope.IdJugador=$stateParams.idJugador.substr(2); 
-    $scope.EquipoL=EquipoVisitante.getPlayers();
+    $scope.EquipoV=EquipoVisitante.getPlayers();
    
-    $scope.jugador= $scope.EquipoL[$scope.IdJugador];  
+    $scope.jugador= $scope.EquipoV[$scope.IdJugador];  
     $scope.vPuntos= EquipoVisitante.DatosPorCuartoJugador(true,$scope.IdJugador);
     $scope.vFaltas= EquipoVisitante.DatosPorCuartoJugador(false,$scope.IdJugador);
  
     $scope.ElHistorico=F_Historico.allplayerN($scope.IdJugador,"V"); 
 
-
+    $scope.data = {
+          estaChk:$scope.EquipoV[$scope.IdJugador].visible
+    }
 
     $scope.NombreJugador=function(KJugador){  
-          return  $scope.EquipoL[KJugador].nombre;
+          return  $scope.EquipoV[KJugador].nombre;
     }
     $scope.ChkFuncion = function() {
-            $scope.EquipoV[$scope.IdJugador].visible=false;
+            $scope.EquipoV[$scope.IdJugador].visible=!$scope.EquipoV[$scope.IdJugador].visible;
     }
     $scope.LaAccion=function(vAccion){
       switch(vAccion) {
